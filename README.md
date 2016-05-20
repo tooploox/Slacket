@@ -1,0 +1,1 @@
+To generate Xcode project run `swift build --generate-xcodeproj` in package directory.
