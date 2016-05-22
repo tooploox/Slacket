@@ -1,3 +1,5 @@
+// See: https://api.slack.com/slash-commands
+
 import Foundation
 
 struct Command {
