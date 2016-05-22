@@ -1,3 +1,5 @@
+// See: https://api.slack.com/methods/users.list
+
 struct User {
     
     let id: String
