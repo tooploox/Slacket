@@ -1,3 +1,5 @@
+// See: https://api.slack.com/slash-commands
+
 struct SlackCommandRequest {
     
     let token: String
