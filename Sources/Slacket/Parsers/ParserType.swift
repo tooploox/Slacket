@@ -9,14 +9,12 @@
 import Foundation
 import Kitura
 
-// To define models that can be parsed
-protocol Parsable {}
-
 // To define parsers
 protocol ParserType {}
 
 protocol ParserDecoder: ParserType {
     
+    associatedtype Parsable
     func parse(body: ParsedBody) -> Parsable
 }
 
