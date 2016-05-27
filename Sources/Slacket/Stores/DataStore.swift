@@ -8,12 +8,16 @@
 
 import Foundation
 
-protocol StoreType {}
+protocol StoreType {
+    
+    
+}
 
-protocol DataStore: StoreType {
-    typealias Identifier = String
+protocol DataStoreProvider: StoreType {
+    
+    associatedtype Identifier
     associatedtype Storable
     
     func getData(id: Identifier) -> Storable?
-    func setData(data: Storable) -> Identifier
+    func setData(data: Storable) -> Identifier?
 }
