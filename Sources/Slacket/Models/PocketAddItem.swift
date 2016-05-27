@@ -12,7 +12,7 @@ protocol PocketAddItemType: class, SlacketModel {
     var tweetId: String? { get }
 }
 
-class PocketAddItem: PocketItemType {
+class PocketAddItem: PocketAddItemType {
     
     let url: String
     let consumerKey: String
@@ -30,9 +30,10 @@ class PocketAddItem: PocketItemType {
         
         self.url = url
         self.consumerKey = consumerKey
+        self.accessToken = accessToken
         self.title = title
         self.tags = tags
-        selt.tweetId = tweetId
+        self.tweetId = tweetId
     }
 }
 
