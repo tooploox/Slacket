@@ -10,15 +10,18 @@ import Foundation
 import Kitura
 
 // To define parsers
-protocol ParserType {}
+protocol ParserType {
+    
+    // not sure if this will work, had errors when did the same in DataStore
+    associatedtype Parsable
+}
 
 protocol ParserDecoder: ParserType {
-    
-    associatedtype Parsable
+
     func parse(body: ParsedBody) -> Parsable
 }
 
 protocol ParserEncoder: ParserType {
-    
+
     func parse(model: Parsable) -> ParsedBody
 }

@@ -15,7 +15,7 @@ protocol SlackCommandType: class, SlacketModel {
     var responseUrl: String { get }
 }
 
-class SlackCommandRequest {
+class SlackCommandRequest: SlackCommandType {
     
     let token: String
     let teamId: String
@@ -24,7 +24,8 @@ class SlackCommandRequest {
     let channelName: String
     let userId: String
     let userName: String
-    let command: Command
+    let command: String
+    let text: String
     let responseUrl: String
     
     init(token: String,
@@ -45,7 +46,8 @@ class SlackCommandRequest {
         self.channelName = channelName
         self.userId = userId
         self.userName = userName
-        self.command = Command(name: command, parametersString: text)
+        self.command = command
+        self.text = text
         self.responseUrl = responseUrl
     }
 }
