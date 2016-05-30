@@ -1,6 +1,6 @@
 //
 //  APIClient.swift
-//  SampleServer
+//  Slacket
 //
 //  Created by Jakub Tomanik on 29/05/16.
 //

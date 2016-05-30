@@ -1,6 +1,6 @@
 //
 //  SlacketUserDataStore.swift
-//  SampleServer
+//  Slacket
 //
 //  Created by Jakub Tomanik on 25/05/16.
 //

@@ -11,17 +11,20 @@ import LoggerAPI
     import Glibc
 #endif
 
+protocol ServerModuleType {
+    
+    var router: Kitura.Router { get }
+    init(using router: Kitura.Router)
+    mutating func setupRoutes()
+}
+
 // Using an implementation for a Logger
 Log.logger = HeliumLogger()
 
 // All Web apps need a router to define routes
 let router = Kitura.Router()
 
-router.get("/") { request, response, next in
-    Log.debug("Hello, World!")
-    response.status(.OK).send("Hello, World!")
-    next()
-}
+let slacket = Slacket(using: router)
 
 // Listen on port 80
 #if os(OSX)

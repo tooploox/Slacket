@@ -1,6 +1,6 @@
 //
 //  SlacketUserService.swift
-//  SampleServer
+//  Slacket
 //
 //  Created by Jakub Tomanik on 25/05/16.
 //
@@ -14,10 +14,10 @@ import LoggerAPI
 struct SlacketUserService: UserInfoServiceType {
 
     static let userInfoKey = "SLACKET_USER"
-    let errorDomain = "SlacketUserService"
+    static let errorDomain = "SlacketUserService"
     
     func handle(request: RouterRequest, response: RouterResponse, next: () -> Void) {
-        Log.debug("\(self.errorDomain) handler")
+        Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let command = request.slackCommand else {
             let errorMessage = "Preconditions not met"

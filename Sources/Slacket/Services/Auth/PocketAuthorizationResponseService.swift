@@ -1,6 +1,6 @@
 //
-//  PocketAuthService.swift
-//  SampleServer
+//  PPocketAuthorizationResponseService.swift
+//  Slacket
 //
 //  Created by Jakub Tomanik on 24/05/16.
 //
@@ -12,13 +12,13 @@ import HeliumLogger
 import LoggerAPI
 import SimpleHttpClient
 
-struct PocketAuthResponseService: APIServiceType {
+struct PocketAuthorizationResponseService: APIServiceType {
     
-    let errorDomain = "PocketAuthResponseService"
-    let endpoint: APIServiceEndpointType = PocketAuthorizationEndpoint.Respond
+    static let errorDomain = "PocketAuthorizationResponseService"
+    static let endpoint: APIServiceEndpointType = PocketAuthorizationEndpoint.Respond
     
     func handle(request: RouterRequest, response: RouterResponse, next: () -> Void) {
-        Log.debug("\(self.errorDomain) handler")
+        Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let slackId = request.params["slack_id"],
             let authorizationData = PocketAuthorizationDataStore.sharedInstance.getAuthData(slackId: slackId) else {

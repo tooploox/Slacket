@@ -29,13 +29,13 @@ extension APIService {
 
 protocol BasicServiceType {
     
-    var errorDomain: String { get }
+    static var errorDomain: String { get }
 }
 
 extension BasicServiceType {
     
     func getError(message: String) -> NSError {
-        return NSError(domain: self.errorDomain,
+        return NSError(domain: Self.errorDomain,
                                  code: 1,
                                  userInfo: [NSLocalizedDescriptionKey: message])
     }
@@ -50,5 +50,5 @@ protocol APIServiceType: BasicServiceType, RouterMiddleware {
     
     // This one will be used as a part of URL ./api/v1/:service_name/
     //var name: String { get }
-    var endpoint: APIServiceEndpointType { get }
+    static var endpoint: APIServiceEndpointType { get }
 }

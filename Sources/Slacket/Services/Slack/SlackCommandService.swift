@@ -1,6 +1,6 @@
 //
 //  SlackCommandService.swift
-//  SampleServer
+//  Slacket
 //
 //  Created by Jakub Tomanik on 24/05/16.
 //
@@ -30,11 +30,11 @@ enum SlackEndpoint: APIServiceEndpointType {
 struct SlackCommandService: APIServiceType, UserInfoServiceType {
     
     static let userInfoKey = "SLACK_COMMAND"
-    let errorDomain = "SlackCommandService"
-    let endpoint: APIServiceEndpointType = SlackEndpoint.Command
+    static let errorDomain = "SlackCommandService"
+    static let endpoint: APIServiceEndpointType = SlackEndpoint.Command
     
     func handle(request: RouterRequest, response: RouterResponse, next: () -> Void) {
-        Log.debug("\(self.errorDomain) handler")
+        Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let body = request.body,
             let command = SlackCommandRequestParser.parse(body: body) else {

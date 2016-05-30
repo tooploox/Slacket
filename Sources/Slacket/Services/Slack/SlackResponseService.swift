@@ -1,6 +1,6 @@
 //
 //  SlackCommandService.swift
-//  SampleServer
+//  Slacket
 //
 //  Created by Jakub Tomanik on 24/05/16.
 //
@@ -14,10 +14,10 @@ import LoggerAPI
 struct SlackResponseService: UserInfoServiceType {
     
     static let userInfoKey = "SLACK_RESPONSE"
-    let errorDomain = "SlackResponseService"
+    static let errorDomain = "SlackResponseService"
     
     func handle(request: RouterRequest, response: RouterResponse, next: () -> Void) {
-        Log.debug("\(self.errorDomain) handler")
+        Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let slackResponse = request.slackResponse else {
             let errorMessage = "Preconditions not met"

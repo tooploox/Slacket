@@ -1,6 +1,6 @@
 //
 //  PocketAddService.swift
-//  SampleServer
+//  Slacket
 //
 //  Created by Jakub Tomanik on 24/05/16.
 //
@@ -15,10 +15,10 @@ import SimpleHttpClient
 struct PocketAddService: UserInfoServiceType {
     
     static let userInfoKey = "Pocket_RESPONSE"
-    let errorDomain = "PocketAddService"
+    static let errorDomain = "PocketAddService"
     
     func handle(request: RouterRequest, response: RouterResponse, next: () -> Void) {
-        Log.debug("\(self.errorDomain) handler")
+        Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let command = request.slackCommand,
             let slacketUser = request.slacketUser else {

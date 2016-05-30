@@ -1,6 +1,6 @@
 //
-//  PocketAuthService.swift
-//  SampleServer
+//  PocketAuthorizationRequestService.swift
+//  Slacket
 //
 //  Created by Jakub Tomanik on 24/05/16.
 //
@@ -12,13 +12,13 @@ import HeliumLogger
 import LoggerAPI
 import SimpleHttpClient
 
-struct PocketAuthRequestService: APIServiceType {
+struct PocketAuthorizationRequestService: APIServiceType {
     
-    let errorDomain = "PocketAuthRequestService"
-    let endpoint: APIServiceEndpointType = PocketAuthorizationEndpoint.Request
+    static let errorDomain = "PocketAuthorizationRequestService"
+    static let endpoint: APIServiceEndpointType = PocketAuthorizationEndpoint.Request
     
     func handle(request: RouterRequest, response: RouterResponse, next: () -> Void) {
-        Log.debug("\(self.errorDomain) handler")
+        Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let slackId = request.params["slack_id"] else {
             let errorMessage = "Parameters not found"
