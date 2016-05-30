@@ -40,8 +40,9 @@ struct PocketAuthorizationRequestService: APIServiceType {
                 let authorizationResponse = PocketAuthorizationResponseParser.parse(body: parsedBody) {
                 
                 let authorizationResponse = authorizationResponse as PocketAuthorizationResponseType
-                let authorizationData = PocketAuthorizationData(id: slackId, requestToken: authorizationResponse.pocketRequestToken)
-                PocketAuthorizationDataStore.sharedInstance.setAuthData(data: authorizationData)
+                let authorizationData = PocketAuthorizationData(id: slackId,
+                                                                requestToken: authorizationResponse.pocketRequestToken)
+                PocketAuthorizationDataStore.sharedInstance.set(data: authorizationData)
                 let redirecTo = "\(PocketAuthorizationEndpoint.Respond.directToUrl(id: slackId))"
                 
                 do { try response.redirect(redirecTo) }

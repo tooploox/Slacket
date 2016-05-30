@@ -11,31 +11,13 @@ import Kitura
 import SwiftyJSON
 
 struct PocketAccessTokenResponseParser: ParserDecoderType {
+    
     typealias Parsable = PocketAccessTokenResponseType
+    typealias ParsedType = JsonType
     
-    static func parse(body: ParsedBody) -> Parsable? {
-        switch body {
-        case .UrlEncoded(let parameters):
-            return PocketAccessTokenResponseParser.decode(parameters: parameters)
-        case .Json(let json):
-            return PocketAccessTokenResponseParser.decode(json: json)
-        default:
-            return nil
-        }
-    }
-    
-    static func decode(parameters: [String : String]) -> Parsable? {
-        if let accessToken = parameters["access_token"],
-            let username = parameters["username"] {
-            return PocketAccessTokenResponse(pocketAccessToken: accessToken, pocketUsername: username)
-        } else {
-            return nil
-        }
-    }
-    
-    static func decode(json: JSON) -> Parsable? {
-        if let accessToken = json["access_token"].string,
-            let username = json["username"].string {
+    static func decode(raw: ParsedType) -> Parsable? {
+        if let accessToken = raw["access_token"].string,
+            let username = raw["username"].string {
             return PocketAccessTokenResponse(pocketAccessToken: accessToken, pocketUsername: username)
         } else {
             return nil

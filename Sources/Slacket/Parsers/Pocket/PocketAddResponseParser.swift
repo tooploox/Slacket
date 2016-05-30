@@ -11,21 +11,14 @@ import Kitura
 import SwiftyJSON
 
 struct PocketAddResponseParser: ParserDecoderType {
+    
     typealias Parsable = PocketAddResponseType
+    typealias ParsedType = JsonType
     
-    static func parse(body: ParsedBody) -> Parsable? {
-        switch body {
-        case .Json(let json):
-            return PocketAddResponseParser.decode(json: json)
-        default:
-            return nil
-        }
-    }
-    
-    static func decode(json: JSON) -> Parsable? {
-        let itemJson = json["item"]
+    static func decode(raw: ParsedType) -> Parsable? {
+        let itemJson = raw["item"]
         if let item = PocketItemParser.parse(body: ParsedBody.Json(itemJson)),
-            let status = json["status"].int {
+            let status = raw["status"].int {
             return PocketAddResponse(item: item, status: status)
         } else {
             return nil

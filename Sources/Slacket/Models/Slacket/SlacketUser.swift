@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol SlacketUserType: class, SlacketModel {
+protocol SlacketUserType: class {
     
     var slackId: String { get }
     //var slackTeamId: String { get }

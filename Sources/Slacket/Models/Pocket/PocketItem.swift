@@ -10,7 +10,7 @@ import Foundation
 
 // https://getpocket.com/developer/docs/v3/add
 
-protocol PocketItemType: class, SlacketModel {
+protocol PocketItemType: class {
     
     var itemId: String { get }          // A unique identifier for the added item
     var normalUrl: NSURL { get }        // The original url for the added item

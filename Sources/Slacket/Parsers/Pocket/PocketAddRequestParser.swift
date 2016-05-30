@@ -10,18 +10,39 @@ import Foundation
 import Kitura
 import SwiftyJSON
 
-struct PocketAddRequestParser: ParserEncoderType {
-    typealias Parsable = PocketAddRequestType
+extension PocketAddRequestType {
     
-    static func parse(model: Parsable) -> ParsedBody? {
-        guard let json = PocketAddRequestParser.encode(model: model) else {
-            return nil
-        }
+    var decodedURL: String {
+        #if os(Linux)
+            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
+            let decodedUrl = url.stringByRemovingPercentEncoding
+        #else
+            let decodedUrl = url.removingPercentEncoding
+        #endif
         
-        return ParsedBody.Json(json)
+        guard let url = decodedUrl else {
+            fatalError("URL decodaing failed")
+        }
+        return url
     }
     
-    static func encode(model: Parsable) -> JSON? {
+    var tagsString: String {
+        #if os(Linux)
+            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
+            let tags = self.tags?.componentsJoinedByString(",")
+        #else
+            let tags = self.tags?.joined(separator: ",")
+        #endif
+        return tags ?? ""
+    }
+}
+
+struct PocketAddRequestParser: ParserEncoderType {
+    
+    typealias Parsable = PocketAddRequestType
+    typealias ParsedType = JsonType
+    
+    static func encode(model: Parsable) -> ParsedType? {
         var dictionary = [String: String]()
         dictionary["consumer_key"] = model.pocketConsumerKey
         dictionary["access_token"] = model.pocketAccessToken

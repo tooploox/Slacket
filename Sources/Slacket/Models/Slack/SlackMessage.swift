@@ -1,5 +1,5 @@
 //
-//  SlackResponse.swift
+//  SlackMessage.swift
 //  Slacket
 //
 //  Created by Jakub Tomanik on 29/05/16.
@@ -10,7 +10,7 @@ import Foundation
 
 // See: https://api.slack.com/slash-commands
 
-enum SlackResponseVisibility {
+enum SlackMessageVisibility {
     
     case Ephemeral // Visible only to user that issued the command
     case InChannel // Visible to all members of the channel in which user typed the command
@@ -18,18 +18,18 @@ enum SlackResponseVisibility {
 
 // https://api.slack.com/docs/formatting
 
-protocol SlackResponseType: class, SlacketModel {
+protocol SlackMessageType: class {
     
-    var responseVisibility: SlackResponseVisibility { get }
+    var responseVisibility: SlackMessageVisibility { get }
     var text: String { get }
 }
 
-class SlackResponse: SlackResponseType {
+class SlackMessage: SlackMessageType {
 
-    let responseVisibility: SlackResponseVisibility
+    let responseVisibility: SlackMessageVisibility
     let text: String
     
-    init(responseVisibility: SlackResponseVisibility,
+    init(responseVisibility: SlackMessageVisibility,
          text: String) {
         
         self.responseVisibility = responseVisibility

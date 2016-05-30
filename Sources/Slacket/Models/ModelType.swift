@@ -1,5 +1,5 @@
 //
-//  SlacketModel.swift
+//  ModelType.swift
 //  Slacket
 //
 //  Created by Jakub Tomanik on 20/05/16.
@@ -8,11 +8,4 @@
 
 import Foundation
 
-protocol SlacketModel {}
-
-
-
-
-
-
-
+protocol ModelType {}

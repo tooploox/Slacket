@@ -21,7 +21,7 @@ struct PocketAuthorizationResponseService: APIServiceType {
         Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let slackId = request.params["slack_id"],
-            let authorizationData = PocketAuthorizationDataStore.sharedInstance.getAuthData(slackId: slackId) else {
+            let authorizationData = PocketAuthorizationDataStore.sharedInstance.get(keyId: slackId) else {
                 let errorMessage = "Parameters not found"
                 Log.error(errorMessage)
                 response.error = self.getError(message: errorMessage)
@@ -44,7 +44,7 @@ struct PocketAuthorizationResponseService: APIServiceType {
                                                   pocketAccessToken: accessTokenResponse.pocketAccessToken,
                                                   pocketUsername: accessTokenResponse.pocketUsername)
 
-                SlacketUserDataStore.sharedInstance.setUserData(data: slacketUserData)
+                SlacketUserDataStore.sharedInstance.set(data: slacketUserData)
                 next()
                 return
                 

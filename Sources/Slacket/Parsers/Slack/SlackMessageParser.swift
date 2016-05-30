@@ -1,5 +1,5 @@
 //
-//  SlackResponseParser.swift
+//  SlackMessageParser.swift
 //  Slacket
 //
 //  Created by Jakub Tomanik on 30/05/16.
@@ -12,7 +12,7 @@ import Foundation
 import Kitura
 import SwiftyJSON
 
-private extension SlackResponseVisibility {
+private extension SlackMessageVisibility {
     
     var slackValue: String {
         switch self {
@@ -24,18 +24,12 @@ private extension SlackResponseVisibility {
     }
 }
 
-struct SlackResponseParser: ParserEncoderType {
-    typealias Parsable = SlackResponseType
+struct SlackMessageParser: ParserEncoderType {
     
-    static func parse(model: Parsable) -> ParsedBody? {
-        guard let json = SlackResponseParser.encode(model: model) else {
-            return nil
-        }
-        
-        return ParsedBody.Json(json)
-    }
+    typealias Parsable = SlackMessageType
+    typealias ParsedType = JsonType
     
-    static func encode(model: Parsable) -> JSON? {
+    static func encode(model: Parsable) -> ParsedType? {
         var dictionary = [String: String]()
         dictionary["text"] = model.text
         dictionary["response_type"] = model.responseVisibility.slackValue

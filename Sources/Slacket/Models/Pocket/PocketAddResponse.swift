@@ -10,7 +10,7 @@ import Foundation
 
 // https://getpocket.com/developer/docs/v3/add
 
-protocol PocketAddResponseType: class, SlacketModel {
+protocol PocketAddResponseType: class {
     var item: PocketItemType { get }
     var status: Int { get }
 }

@@ -1,5 +1,5 @@
 //
-//  SlackCommandRequest.swift
+//  SlackCommand.swift
 //  Slacket
 //
 //  Created by Jakub Tomanik on 29/05/16.
@@ -10,7 +10,7 @@ import Foundation
 
 // https://api.slack.com/slash-commands
 
-protocol SlackCommandRequestType: class, SlacketModel {
+protocol SlackCommandType: class {
     
     var token: String { get }
     var teamId: String { get }
@@ -24,7 +24,7 @@ protocol SlackCommandRequestType: class, SlacketModel {
     var responseUrl: String { get }
 }
 
-class SlackCommandRequest: SlackCommandRequestType {
+class SlackCommand: SlackCommandType {
     
     let token: String
     let teamId: String

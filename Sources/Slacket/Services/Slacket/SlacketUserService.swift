@@ -27,14 +27,14 @@ struct SlacketUserService: UserInfoServiceType {
             return
         }
         
-        if let slacketUser = SlacketUserDataStore.sharedInstance.getUserData(slackId: command.userId) {
+        if let slacketUser = SlacketUserDataStore.sharedInstance.get(keyId: command.userId) {
             
             request.slacketUser = slacketUser
             next()
             
         } else {
 
-            request.slackResponse = SlackResponse(responseVisibility: .Ephemeral,
+            request.SlackMessage = SlackMessage(responseVisibility: .Ephemeral,
                                                   text: "Please go to \(PocketAuthorizationEndpoint.Request.directToUrl(id: command.userId))")
             next()
         }

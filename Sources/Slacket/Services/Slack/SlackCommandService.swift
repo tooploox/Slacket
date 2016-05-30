@@ -37,7 +37,7 @@ struct SlackCommandService: APIServiceType, UserInfoServiceType {
         Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let body = request.body,
-            let command = SlackCommandRequestParser.parse(body: body) else {
+            let command = SlackCommandParser.parse(body: body) else {
             let errorMessage = "Preconditions not met"
             Log.error(errorMessage)
             response.error = self.getError(message: errorMessage)
@@ -51,9 +51,9 @@ struct SlackCommandService: APIServiceType, UserInfoServiceType {
 
 extension RouterRequest {
     
-    var slackCommand: SlackCommandRequestType? {
+    var slackCommand: SlackCommandType? {
         get {
-            return userInfo[SlackCommandService.userInfoKey] as? SlackCommandRequestType
+            return userInfo[SlackCommandService.userInfoKey] as? SlackCommandType
         }
         set {
             userInfo[SlackCommandService.userInfoKey] = newValue

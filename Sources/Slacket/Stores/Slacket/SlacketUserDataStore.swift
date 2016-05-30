@@ -7,30 +7,19 @@
 //
 
 import Foundation
-import Kitura
-import HeliumLogger
-import LoggerAPI
 
-protocol SlacketUserDataProvider: InMemoryStoreProvider {
+extension SlacketUser: StorableType {
     
-    func getUserData(slackId id: Identifier) -> Storable?
-    func setUserData(data: Storable) -> Identifier?
+    var keyId: String {
+        return self.slackId
+    }
 }
 
-class SlacketUserDataStore: SlacketUserDataProvider {
+class SlacketUserDataStore: InMemoryStoreProvider {
     
-    typealias Identifier = String
-    typealias Storable = SlacketUserType
+    typealias Storable = SlacketUser
     
     static let sharedInstance = SlacketUserDataStore()
     
-    var memoryStore: [Identifier: Storable] = [:]
-    
-    func getUserData(slackId id: Identifier) -> Storable? {
-        return self.getData(id: id)
-    }
-    
-    func setUserData(data: Storable) -> Identifier? {
-        return self.setData(data: data, id: data.slackId)
-    }
+    var memoryStore: [Storable.Identifier: Storable] = [:]
 }

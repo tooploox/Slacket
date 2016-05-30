@@ -11,17 +11,11 @@ import Kitura
 import SwiftyJSON
 
 struct PocketAccessTokenRequestParser: ParserEncoderType {
+    
     typealias Parsable = PocketAccessTokenRequestType
+    typealias ParsedType = JsonType
     
-    static func parse(model: Parsable) -> ParsedBody? {
-        guard let json = PocketAccessTokenRequestParser.encode(model: model) else {
-            return nil
-        }
-        
-        return ParsedBody.Json(json)
-    }
-    
-    static func encode(model: Parsable) -> JSON? {
+    static func encode(model: Parsable) -> ParsedType? {
         var dictionary = [String: String]()
         dictionary["consumer_key"] = model.pocketConsumerKey
         dictionary["code"] = model.pocketRequestToken

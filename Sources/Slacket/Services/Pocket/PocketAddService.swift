@@ -49,7 +49,7 @@ struct PocketAddService: UserInfoServiceType {
             
             if 200...299 ~= status {
                 Log.debug("Successfull call to Pocket API")
-                request.slackResponse = SlackResponse(responseVisibility: .Ephemeral, text: "successfully added link")
+                request.SlackMessage = SlackMessage(responseVisibility: .Ephemeral, text: "successfully added link")
                 next()
                 return
                 

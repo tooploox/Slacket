@@ -35,7 +35,7 @@ struct Slacket: ServerModuleType {
                     middleware: SlackCommandService(),
                     SlacketUserService(),
                     PocketAddService(),
-                    SlackResponseService()
+                    SlackMessageService()
         )
         
         router.get(PocketAuthorizationRequestService.endpoint.route,
