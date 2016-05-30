@@ -8,6 +8,7 @@
 
 import Foundation
 import Kitura
+import SwiftyJSON
 
 // To define parsers
 protocol ParserType {
@@ -16,12 +17,12 @@ protocol ParserType {
     associatedtype Parsable
 }
 
-protocol ParserDecoder: ParserType {
+protocol ParserDecoderType: ParserType {
 
-    func parse(body: ParsedBody) -> Parsable
+    static func parse(body: ParsedBody) -> Parsable?
 }
 
-protocol ParserEncoder: ParserType {
+protocol ParserEncoderType: ParserType {
 
-    func parse(model: Parsable) -> ParsedBody
+    static func parse(model: Parsable) -> ParsedBody?
 }

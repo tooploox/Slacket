@@ -1,3 +1,11 @@
+//
+//  PocketItem.swift
+//  Slacket
+//
+//  Created by Jakub Tomanik on 29/05/16.
+//
+//
+
 import Foundation
 
 // https://getpocket.com/developer/docs/v3/add
