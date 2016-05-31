@@ -1,5 +1,5 @@
 //
-//  PocketAPIClient.swift
+//  PocketAPI.swift
 //  Slacket
 //
 //  Created by Jakub Tomanik on 29/05/16.
@@ -10,7 +10,7 @@ import Foundation
 import Kitura
 import SimpleHttpClient
 
-enum PocketAPIClient: APIClientEndpointType {
+enum PocketAPI: APIClientEndpointType {
     
     case Add(PocketAddRequestType)
     case RequestAuthorization(PocketAuthorizationRequestType)

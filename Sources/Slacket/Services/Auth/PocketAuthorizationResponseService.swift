@@ -30,13 +30,13 @@ struct PocketAuthorizationResponseService: APIServiceType {
         }
         
         let requestData = PocketAccessTokenRequest(pocketRequestToken: authorizationData.requestToken)
-        PocketAPIClient.RequestAccessToken(requestData).request() { error, status, headers, data in
+        PocketAPI.RequestAccessToken(requestData).request() { error, status, headers, data in
             guard let status = status else {
                 fatalError()
             }
             
             if let data = data where 200...299 ~= status,
-                let parsedBody = BodyParser.parse(data, contentType: PocketAPIClient.RequestAccessToken(requestData).acceptContentType),
+                let parsedBody = BodyParser.parse(data, contentType: PocketAPI.RequestAccessToken(requestData).acceptContentType),
                 let accessTokenResponse = PocketAccessTokenResponseParser.parse(body: parsedBody) {
                 
                 let accessTokenResponse = accessTokenResponse as PocketAccessTokenResponseType

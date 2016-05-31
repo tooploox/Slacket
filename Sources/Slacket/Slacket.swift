@@ -34,8 +34,10 @@ struct Slacket: ServerModuleType {
         router.post(SlackCommandService.endpoint.route,
                     middleware: SlackCommandService(),
                     SlacketUserService(),
+                    // SlacketSessionService()
                     PocketAddService(),
                     SlackMessageService()
+                    // TODO: Define message templates
         )
         
         router.get(PocketAuthorizationRequestService.endpoint.route,
@@ -44,7 +46,11 @@ struct Slacket: ServerModuleType {
         
         router.get(PocketAuthorizationResponseService.endpoint.route,
                    middleware: PocketAuthorizationResponseService()
-            // Add Service showing authorization success page
+                   // SlacketUserService()
+                   // SlacketSessionService()
+                   // SlackMessageService()
+                   // WebViewService()
+            // TODO: Introduce Emitter service that terminates response chain
         )
         
         router.get("api/*") { request, response, next in

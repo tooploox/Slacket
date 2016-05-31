@@ -42,7 +42,7 @@ struct PocketAddService: UserInfoServiceType {
                                     tags: [command.teamDomain, command.channelName],
                                     tweetId: nil)
         
-        PocketAPIClient.Add(requestData).request() { error, status, headers, data in
+        PocketAPI.Add(requestData).request() { error, status, headers, data in
             guard let status = status else {
                 fatalError()
             }
