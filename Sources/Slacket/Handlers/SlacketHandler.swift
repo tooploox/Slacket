@@ -57,7 +57,7 @@ enum SlacketAction: HandlerAction {
     }
 }
 
-struct SlacketHandler: Handler, ErrorType {
+struct SlacketHandler: Handler, RouterMiddleware, ErrorType {
     
     static let errorDomain = "SlacketUserService"
     
