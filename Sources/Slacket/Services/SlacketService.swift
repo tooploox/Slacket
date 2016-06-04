@@ -21,6 +21,7 @@ struct SlacketService: SlacketServiceProvider {
         
         if let slacketUser = SlacketUserDataStore.sharedInstance.get(keyId: request.userId) where slacketUser.pocketAccessToken != nil {
             
+            // "echo" response
             let message = SlackMessage(responseVisibility: .Ephemeral,
                                        text: "\(request.command) \(request.text)")
             respond(message)

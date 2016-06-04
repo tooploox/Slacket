@@ -1,16 +1,6 @@
-//
-//  Architecture.swift
-//  Slacket
-//
-//  Created by Jakub Tomanik on 31/05/16.
-//
-//
-
-import Foundation
-
-/*
+# Architecture
  
- - Kitura Router : Router in (3,4) or Controller in (1)
+ Kitura Router : Router in (3,4) or Controller in (1)
  
  
  / Handlers     : Event Handlers, Middleware in Kitura, Presenter in (1,3,4)
@@ -31,5 +21,3 @@ import Foundation
  (3) https://medium.com/brigade-engineering/brigades-experience-using-an-mvc-alternative-36ef1601a41f
  (4) https://medium.com/ios-os-x-development/ios-architecture-patterns-ecba4c38de52#.zf61xd1m7
  (5) https://www.objc.io/issues/13-architecture/viper/
- 
- */

@@ -9,9 +9,11 @@
 import Foundation
 import Kitura
 
-protocol View {
+protocol ViewResponder {
 
-    var responseObject: RouterResponse { get }
+    var response: RouterResponse { get }
+    
+    init(response: RouterResponse)
 }
 
 /*

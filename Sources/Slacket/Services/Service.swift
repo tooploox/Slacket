@@ -8,10 +8,7 @@
 
 import Foundation
 
-protocol Service {
-    
-    //var gateway: Gateway { get }
-}
+protocol Service {}
 
 /*
  

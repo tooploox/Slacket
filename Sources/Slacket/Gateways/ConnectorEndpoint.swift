@@ -1,8 +1,8 @@
 //
-//  APIClient.swift
+//  ConnectorEndpoint.swift
 //  Slacket
 //
-//  Created by Jakub Tomanik on 29/05/16.
+//  Created by Jakub Tomanik on 04/06/16.
 //
 //
 
@@ -57,19 +57,5 @@ extension ConnectorEndpoint {
     
     func request(completionHandler handler: NetworkRequestCompletionHandler) {
         ConnectorProvider.request(endpoint: self, completionHandler: handler)
-    }
-}
-
-struct ConnectorProvider<Endpoint: ConnectorEndpoint> {
-    
-    static func request(endpoint: Endpoint, completionHandler handler: NetworkRequestCompletionHandler) {
-        switch endpoint.method {
-        case .Get:
-            HttpClient.get(resource: endpoint.resource, headers: endpoint.headers, completionHandler: handler)
-        case .Post:
-            HttpClient.post(resource: endpoint.resource, headers: endpoint.headers, data: endpoint.data, completionHandler: handler)
-        default:
-            fatalError("API Client method not supported")
-        }
     }
 }

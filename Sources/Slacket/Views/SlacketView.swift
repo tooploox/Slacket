@@ -15,7 +15,7 @@ protocol SlacketViewResponder {
     func show(message: SlackMessageType)
 }
 
-struct SlacketView: ParsedBodyResponder {
+struct SlacketView: SlacketViewResponder, ParsedBodyResponder {
     
     let response: RouterResponse
     

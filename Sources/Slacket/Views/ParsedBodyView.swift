@@ -12,11 +12,7 @@ import SwiftyJSON
 import HeliumLogger
 import LoggerAPI
 
-protocol ParsedBodyResponder {
-    
-    var response: RouterResponse { get }
-    
-    init(response: RouterResponse)
+protocol ParsedBodyResponder: ViewResponder {
     
     func show(body: ParsedBody)
 }
