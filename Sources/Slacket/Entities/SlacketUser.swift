@@ -8,28 +8,18 @@
 
 import Foundation
 
-protocol SlacketUserType: class {
+protocol SlacketUserType {
     
     var slackId: String { get }
-    //var slackTeamId: String { get }
-    var pocketAccessToken: String { get }
+    var slackTeamId: String { get }
+    var pocketAccessToken: String? { get }
+    var pocketUsername: String? { get }
 }
 
-class SlacketUser: SlacketUserType {
+struct SlacketUser: SlacketUserType {
     
     let slackId: String
-    //let slackTeamId: String
-    let pocketAccessToken: String
-    let pocketUsername: String
-    
-    init(slackId: String,
-         //slackTeamId: String,
-         pocketAccessToken: String,
-         pocketUsername: String) {
-        
-        self.slackId = slackId
-        //self.slackTeamId = slackTeamId
-        self.pocketAccessToken = pocketAccessToken
-        self.pocketUsername = pocketUsername
-    }
+    let slackTeamId: String
+    let pocketAccessToken: String?
+    let pocketUsername: String?
 }

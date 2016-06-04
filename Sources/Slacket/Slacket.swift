@@ -31,6 +31,7 @@ struct Slacket: ServerModuleType {
         router.all("api/*", middleware: BodyParser())
         
         // setup inbound slack URL
+        /*
         router.post(SlackCommandService.endpoint.route,
                     middleware: SlackCommandService(),
                     SlacketUserService(),
@@ -52,7 +53,7 @@ struct Slacket: ServerModuleType {
                    // WebViewService()
             // TODO: Introduce Emitter service that terminates response chain
         )
-        
+        */
         router.get("api/*") { request, response, next in
             do {
                 try response.end()

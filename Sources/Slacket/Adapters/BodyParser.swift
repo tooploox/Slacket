@@ -9,30 +9,6 @@
 import Foundation
 import Kitura
 import SwiftyJSON
-import Socket
-
-extension NSData: SocketReader {
-    
-    public func readString() throws -> String? {
-        
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return String(data: self, encoding: NSUTF8StringEncoding)
-        #else
-            return String(data: self, encoding: NSUTF8StringEncoding)
-        #endif
-    }
-    
-    public func read(into data: NSMutableData) throws -> Int {
-        
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return try self.read(into: data)
-        #else
-            return try self.read(into: data)
-        #endif
-    }
-}
 
 extension ParsedBody {
     
@@ -51,10 +27,19 @@ extension ParsedBody {
         }
     }
     
-    var header: [String: String] {
+    var contentTypeHeaderKey: String {
+        return "Content-Type"
+    }
+    
+    var contentTypeHeaderValue: String {
         var contentType = self.contentType
         contentType += self.isUTF8 ? "; charset=utf-8" : ""
-        return ["Content-Type": contentType]
+        return contentType
+    }
+    
+    var header: [String: String] {
+        return [self.contentTypeHeaderKey: self.contentTypeHeaderValue]
+        
     }
     
     var data: NSData? {
@@ -69,29 +54,16 @@ extension ParsedBody {
     }
     
     private func encode(json: JSON) -> NSData? {
-       return try? json.rawData()
+        return try? json.rawData()
     }
     
     private func encode(parameters: [String: String]) -> NSData? {
         let parametersArray = parameters.map { "\($0.key)=\($0.value)" }
-        
-        
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            let parametersString = parametersArray.componentsJoinedByString("&")
-        #else
-            let parametersString = parametersArray.joined(separator: "&")
-        #endif
+        let parametersString = parametersArray.joinedBy(separator: "&")
         return self.encode(text: parametersString)
     }
     
     private func encode(text: String) -> NSData? {
-        
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return text.dataUsingEncoding(NSUTF8StringEncoding)
-        #else
-            return text.data(using: NSUTF8StringEncoding)
-        #endif
+        return text.encodedData
     }
 }
