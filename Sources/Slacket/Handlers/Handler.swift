@@ -17,8 +17,35 @@ protocol Handler {}
  * Reacting to Router reqests and invoking appropirate Service with data it requires
  * Responding to Router with properly formated data
  
- Entities are plain data objects, preferably Value types.
- Entities are **not** the data access layer, as this is a Gateway responsibility.
- Entities are pretty straight forward and what you would expect. They embody some type of data and act as the “payload” that gets passed around between the other objects.
+ Handlers shield rest of the app from web framework (Kitura)
+ Handler mainly consists of logic to drive the View.
+ Handler process input from user (requests) and invokes methods on the Service.
+ 
+ */
+
+
+/*
+ 
+ RouterRequest -> Adapter -> RequestModel
+ raw -> KituraAdapter -> HTTPRequestModel
+ 
+ -------- clean boundry -------
+ 
+ RequestModel -> Action
+ RequestModel -> Adapter -> Entity
+ 
+ Handler(Action) -> Service(Entity)
+ Service -> Handler(Entity)
+ 
+ Entity -> Adapter -> ResponseModel
+ 
+ -------- clean boundry -------
+ 
+ ResponseModel
+ ResponseModel -> Adapter -> ViewModel
+ Model -> ModelEncoder -> JSON
+ 
+ ViewModel -> View -> RouterResponse
+ JSON -> application/json -> raw
  
  */
