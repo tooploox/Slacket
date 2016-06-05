@@ -12,29 +12,28 @@ import Kitura
 import HeliumLogger
 import LoggerAPI
 
-enum SlacketAction: HandlerAction {
+enum SlacketAction: HandlerAction, ServerConfig {
     
     case addCommand
     case authorizePocket
     
     static func from(route: String) -> SlacketAction? {
         switch route {
-        case SlacketAction.addCommand.route:
-            SlacketAction.addCommand
-        case SlacketAction.authorizePocket.route:
-            SlacketAction.authorizePocket
+        case let r where r.startsWith(prefix: SlacketAction.addCommand.route):
+            return SlacketAction.addCommand
+        case let r where r.startsWith(prefix: SlacketAction.authorizePocket.route):
+            return SlacketAction.authorizePocket
         default:
             return nil
         }
-        return nil
     }
     
     var route: String {
         switch self {
         case .addCommand:
-            return "api/v1/slack"
+            return "/api/v1/slack"
         case .authorizePocket:
-            return "api/v1/pocket/auth"
+            return "/api/v1/authorize"
         }
     }
     

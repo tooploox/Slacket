@@ -54,8 +54,8 @@ extension HandlerAction {
             return true
         }
         
-        let check = prerequisites.flatMap { params[$0] }
-        return check.count == prerequisites.count
+        let fullfiledPrerequisitesCount = prerequisites.flatMap({ params[$0] }).count
+        return prerequisites.count == fullfiledPrerequisitesCount
     }
     
     private func hasRequiredBodyType(body: ParsedBody?) -> Bool {
@@ -73,10 +73,8 @@ extension HandlerAction {
 extension HandlerAction {
     
     init?(request: Kitura.RouterRequest) {
-        guard let
-            action = Self.from(route: request.matchedPath) where
-            request.method == action.method &&
-                action.hasAllRequiredParameters(request: request) else {
+        guard let action = Self.from(route: request.matchedPath) where
+            request.method == action.method && action.hasAllRequiredParameters(request: request) else {
                     return nil
         }
         self = action

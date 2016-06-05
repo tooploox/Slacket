@@ -25,6 +25,15 @@ extension Sequence where Iterator.Element == String {
 
 extension String {
     
+    func startsWith(prefix: String) -> Bool {
+        #if os(Linux)
+            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
+            return self.hasPrefix(prefix)
+        #else
+            return self.hasPrefix(prefix)
+        #endif
+    }
+    
     func trimWhitespace() -> String {
         #if os(Linux)
             // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation

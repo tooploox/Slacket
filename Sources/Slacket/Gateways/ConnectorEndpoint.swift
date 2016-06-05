@@ -52,7 +52,10 @@ extension ConnectorEndpoint {
     }
     
     var resource: HttpResourse {
-        return HttpResourse(schema: self.schema.rawValue, host: self.host, port: "\(self.port)", path: self.path)
+        return HttpResourse(schema: self.schema.rawValue,
+                            host: self.host,
+                            port: "\(self.port)",
+                            path: self.path)
     }
     
     func request(completionHandler handler: NetworkRequestCompletionHandler) {

@@ -19,35 +19,34 @@ enum PocketAuthorizationAction: HandlerAction, ServerConfig {
     
     static func from(route: String) -> PocketAuthorizationAction? {
         switch route {
-        case PocketAuthorizationAction.authorizationRequest.route:
-            PocketAuthorizationAction.authorizationRequest
-        case PocketAuthorizationAction.accessTokenRequest.route:
-            PocketAuthorizationAction.accessTokenRequest
+        case let r where r.startsWith(prefix: PocketAuthorizationAction.authorizationRequest.route):
+            return PocketAuthorizationAction.authorizationRequest
+        case let r where r.startsWith(prefix: PocketAuthorizationAction.accessTokenRequest.route):
+            return PocketAuthorizationAction.accessTokenRequest
         default:
             return nil
         }
-        return nil
     }
     
     var route: String {
         switch self {
         case .authorizationRequest:
-            return "api/v1/pocket/auth/request"
+            return SlacketAction.authorizePocket.route + "/request"
         case .accessTokenRequest:
-            return "api/v1/pocket/auth/respond"
+            return SlacketAction.authorizePocket.route + "/respond"
         }
     }
     
     var method: Kitura.RouterMethod {
-        return .Post
+        return .Get
     }
     
-    var requiredParameters: [String]? {
+    var requiredQueryParameters: [String]? {
         return ["user", "team"]
     }
     
     func redirectUrl(user: SlacketUserType) -> String {
-        return "\(self.schema.rawValue)://\(self.host)/\(self.route)?user=\(user.slackId)&team=\(user.slackTeamId)"
+        return "\(self.schema.rawValue)://\(self.host)\(self.route)?user=\(user.slackId)&team=\(user.slackTeamId)"
     }
 }
 
