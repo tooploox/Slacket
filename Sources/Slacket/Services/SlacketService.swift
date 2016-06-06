@@ -30,7 +30,7 @@ struct SlacketService: SlacketServiceProvider {
             PocketApiConnector.addLink(url: url,
                                        tags: [request.teamDomain, request.channelName],
                                        user: slacketUser) { pocketItem in
-                                        guard let pocketItem = pocketItem else {
+                                        guard pocketItem != nil else {
                                             fatalError()
                                         }
                                         
