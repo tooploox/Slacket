@@ -31,13 +31,13 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
             }
             
             if let data = data where 200...299 ~= status,
-                let parsedBody = BodyParser.parse(data, contentType: authorizeEndpoint.acceptContentType),
+                let parsedBody = ParsedBody.init(data: data, contentType: authorizeEndpoint.acceptContentType),
                 let authorizationResponse = PocketAuthorizationResponseParser.parse(body: parsedBody),
                 let redirectUrl = authorizeEndpoint.redirectUrl(for: authorizationResponse) {
-                let authorizationResponse = authorizationResponse as PocketAuthorizationResponseType
                 completion((authorizationResponse, redirectUrl))
+            } else {
+                completion(nil)
             }
-            completion(nil)
         }
     }
     
