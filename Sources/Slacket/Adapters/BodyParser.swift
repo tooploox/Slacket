@@ -21,9 +21,9 @@ extension ParsedBody {
         case .Text:
             return "text/plain"
         case .UrlEncoded:
-            return "application/json"
-        case .Json:
             return "application/x-www-form-urlencoded"
+        case .Json:
+            return "application/json"
         }
     }
     
@@ -50,6 +50,36 @@ extension ParsedBody {
             return self.encode(parameters: parameters)
         case .Json(let json):
             return self.encode(json: json)
+        }
+    }
+    
+    init?(data: NSData, contentType contentTypeString: String?) {
+        guard let contentTypeString = contentTypeString else {
+            return nil
+        }
+        
+        if contentTypeString.startsWith(prefix: "text/plain"), let text = String(data: data, encoding: NSUTF8StringEncoding) {
+            self = .Text(text)
+        } else if contentTypeString.startsWith(prefix: "application/x-www-form-urlencoded"),
+            let text = String(data: data, encoding: NSUTF8StringEncoding) {
+            var params = [String: String]()
+            let pairs = text.components(separatedBy: "&")
+            for pair in pairs {
+                let keyValue = pair.components(separatedBy: "=")
+                if keyValue.count > 1 {
+                    params.updateValue(keyValue[1], forKey: keyValue[0])
+                }
+            }
+            self = .UrlEncoded(params)
+        } else if contentTypeString.startsWith(prefix: "application/json") {
+            let json = JSON(data: data)
+            if json != JSON.null {
+                self = .Json(json)
+            } else {
+                return nil
+            }
+        } else {
+            return nil
         }
     }
     

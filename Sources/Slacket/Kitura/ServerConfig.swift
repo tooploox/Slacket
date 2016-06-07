@@ -24,7 +24,7 @@ extension ServerConfig {
     }
     
     var host: String {
-        return "slacket.link"
+        return "localhost"
     }
 }
 

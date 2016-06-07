@@ -25,6 +25,8 @@ extension ParserDecoderType where ParsedType == JsonType {
         switch body {
         case .Json(let json):
             return self.decode(raw: json)
+        case .UrlEncoded(let dict):
+            return self.decode(raw: JSON(dict))
         default:
             return nil
         }

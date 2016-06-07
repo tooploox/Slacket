@@ -44,7 +44,7 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     }
     
     var acceptContentType: String? {
-        return "application/json"
+        return "application/x-www-form-urlencoded"
     }
     
     var acceptHeaders: [String: String]? {
