@@ -14,12 +14,7 @@ import Socket
 extension Sequence where Iterator.Element == String {
     
     func joinedBy(separator: String) -> String {
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return self.componentsJoinedByString(separator)
-        #else
             return self.joined(separator: separator)
-        #endif
     }
 }
 
