@@ -45,11 +45,11 @@ extension URLType {
     }
     
     var baseURL: String {
-        var port = ""
+        var portString = ""
         if let portNum = self.port {
-            port = ":\(portNum)"
+            portString = ":\(portNum)"
         }
-        return "\(self.scheme.rawValue)://\(self.host)\(port)/"
+        return "\(self.scheme.rawValue)://\(self.host)\(portString)/"
     }
     
     var absoluteString: String {
