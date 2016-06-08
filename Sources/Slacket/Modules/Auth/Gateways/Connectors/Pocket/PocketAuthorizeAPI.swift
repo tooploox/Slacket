@@ -61,7 +61,11 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     func redirectUrl(for response: PocketAuthorizationResponseType) -> String? {
         switch self {
         case .RequestAuthorization(let req):
-            return "\(self.absoluteString)?request_token=\(response.pocketRequestToken)&redirect_uri=\(req.pocketRedirectUri)"
+            if let redirectUrl = req.pocketRedirectUri.stringByAddingPercentEncoding() {
+                return "\(self.absoluteString)?request_token=\(response.pocketRequestToken)&redirect_uri=\(redirectUrl)"
+            } else {
+                return nil
+            }
         case .RequestAccessToken:
             return nil
             

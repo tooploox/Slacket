@@ -75,6 +75,14 @@ extension String {
         #endif
     }
     
+    func stringByAddingPercentEncoding() -> String? {
+        #if os(Linux)
+            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
+            return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.urlHostAllowed())
+        #else
+            return self.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlHostAllowed())
+        #endif
+    }
 }
 
 extension NSData: SocketReader {
