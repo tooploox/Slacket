@@ -81,7 +81,7 @@ extension ServerConfig {
         #if os(OSX)
             return 8090
         #else
-            return nil
+            return 8090
         #endif
     }
 }
