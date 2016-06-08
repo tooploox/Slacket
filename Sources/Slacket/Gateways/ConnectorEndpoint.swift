@@ -10,19 +10,9 @@ import Foundation
 import Kitura
 import SimpleHttpClient
 
-enum APIRequestSchema: String {
-    case Http = "http"
-    case Https = "https"
-}
-
-protocol ConnectorEndpoint {
+protocol ConnectorEndpoint: URLType {
     
     var method: RouterMethod { get}
-    var schema: APIRequestSchema { get }
-    var host: String { get }
-    var path: String { get }
-    var port: Int { get }
-    var fullPath: String { get }
     var headers: [String: String]? { get }
     var acceptContentType: String? { get }
     var acceptHeaders: [String: String]? { get }
@@ -31,8 +21,8 @@ protocol ConnectorEndpoint {
 
 extension ConnectorEndpoint {
     
-    var fullPath: String {
-        return "\(self.schema.rawValue)://\(self.host)/\(self.path)"
+    var port: Int? {
+        return 80
     }
     
     var headers: [String: String]? {
@@ -52,10 +42,10 @@ extension ConnectorEndpoint {
     }
     
     var resource: HttpResourse {
-        return HttpResourse(schema: self.schema.rawValue,
+        return HttpResourse(schema: self.scheme.rawValue,
                             host: self.host,
                             port: "\(self.port)",
-                            path: self.path)
+                            path: "/\(self.path)")
     }
     
     func request(completionHandler handler: NetworkRequestCompletionHandler) {

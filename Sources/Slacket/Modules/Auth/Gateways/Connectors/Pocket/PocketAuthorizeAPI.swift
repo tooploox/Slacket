@@ -15,7 +15,7 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     case RequestAuthorization(PocketAuthorizationRequestType)
     case RequestAccessToken(PocketAccessTokenRequestType)
     
-    var schema: APIRequestSchema {
+    var scheme: URLSchema {
         return .Https
     }
     
@@ -26,15 +26,11 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     var path: String {
         switch self {
         case .RequestAuthorization:
-            return "/v3/oauth/request"
+            return "v3/oauth/request"
         case .RequestAccessToken:
-            return "/v3/oauth/authorize"
+            return "v3/oauth/authorize"
             
         }
-    }
-    
-    var port: Int {
-        return 80
     }
     
     var headers: [String: String]? {
@@ -65,7 +61,7 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     func redirectUrl(for response: PocketAuthorizationResponseType) -> String? {
         switch self {
         case .RequestAuthorization(let req):
-            return "\(self.schema.rawValue)://\(self.host)/\(self.path)?request_token=\(response.pocketRequestToken)&redirect_uri=\(req.pocketRedirectUri)"
+            return "\(self.absoluteString)?request_token=\(response.pocketRequestToken)&redirect_uri=\(req.pocketRedirectUri)"
         case .RequestAccessToken:
             return nil
             

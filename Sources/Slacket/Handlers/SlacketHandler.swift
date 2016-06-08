@@ -27,14 +27,18 @@ enum SlacketAction: HandlerAction, ServerConfig {
             return nil
         }
     }
-    
-    var route: String {
+
+    var path: String {
         switch self {
         case .addCommand:
-            return "/api/v1/slack"
+            return "api/v1/slack"
         case .authorizePocket:
-            return "/api/v1/authorize"
+            return "api/v1/authorize"
         }
+    }
+    
+    var route: String {
+        return "/" + self.path
     }
     
     var method: Kitura.RouterMethod {

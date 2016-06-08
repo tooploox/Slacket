@@ -26,7 +26,7 @@ enum PocketAPI: ConnectorEndpoint {
     
     case Add(PocketAddRequestType)
     
-    var schema: APIRequestSchema {
+    var scheme: URLSchema {
         return .Https
     }
     
@@ -37,12 +37,8 @@ enum PocketAPI: ConnectorEndpoint {
     var path: String {
         switch self {
         case .Add:
-            return "/v3/add"
+            return "v3/add"
         }
-    }
-    
-    var port: Int {
-        return 80
     }
     
     var headers: [String: String]? {

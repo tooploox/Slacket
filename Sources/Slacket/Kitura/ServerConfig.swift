@@ -11,20 +11,74 @@ import Kitura
 import HeliumLogger
 import LoggerAPI
 
-protocol ServerConfig {
-    
-    var schema: APIRequestSchema { get }
-    var host: String { get }
+enum URLSchema: String {
+    case Http = "http"
+    case Https = "https"
 }
+
+protocol URLType {
+    
+    /*
+        This protocol abstracts URL,
+        naming from RFC 1808, RFC 1738
+        in order to provide better transition to NSURL in the future
+        this is first revision and is still work in progress.
+     */
+    
+    var scheme: URLSchema { get }
+    var host: String { get }
+    var port: Int? { get }
+    var path: String { get }
+    
+    var baseURL: String { get }
+    var absoluteString: String { get }
+}
+
+extension URLType {
+    
+    var port: Int? {
+        return nil
+    }
+    
+    var path: String {
+        return ""
+    }
+    
+    var baseURL: String {
+        return "\(self.scheme.rawValue)://\(self.host)\(String(self.port) ?? "")/"
+    }
+    
+    var absoluteString: String {
+        return "\(self.baseURL)\(self.path)"
+    }
+}
+
+protocol ServerConfig: URLType {}
 
 extension ServerConfig {
     
-    var schema: APIRequestSchema {
-        return .Https
+    var scheme: URLSchema {
+        #if os(OSX)
+            return .Http
+        #else
+            return .Https
+        #endif
     }
     
     var host: String {
-        return "localhost"
+        #if os(OSX)
+            return "localhost"
+        #else
+            return "slacket.link"
+        #endif
+    }
+    
+    var port: Int? {
+        #if os(OSX)
+            return 8090
+        #else
+            return nil
+        #endif
     }
 }
 

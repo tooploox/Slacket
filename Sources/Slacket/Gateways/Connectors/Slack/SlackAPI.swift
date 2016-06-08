@@ -27,7 +27,7 @@ enum SlackAPI: ConnectorEndpoint {
     
     case Respond(command: SlackCommandType, message: SlackMessageType)
     
-    var schema: APIRequestSchema {
+    var scheme: URLSchema {
         return .Https
     }
     
@@ -39,13 +39,9 @@ enum SlackAPI: ConnectorEndpoint {
         switch self {
         case .Respond(let command, _):
             let responseUrl = command.responseUrl
-            let path = responseUrl.replacingOccurrences(of: "\(self.schema.rawValue)://\(self.host)/", with: "")
+            let path = responseUrl.replacingOccurrences(of: self.baseURL, with: "")
             return path
         }
-    }
-    
-    var port: Int {
-        return 80
     }
     
     var headers: [String: String]? {
