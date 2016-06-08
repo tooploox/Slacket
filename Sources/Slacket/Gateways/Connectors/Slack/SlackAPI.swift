@@ -39,7 +39,7 @@ enum SlackAPI: ConnectorEndpoint {
         switch self {
         case .Respond(let command, _):
             let responseUrl = command.responseUrl
-            let path = responseUrl.replacingOccurrences(of: self.baseURL, with: "")
+            let path = responseUrl.replaceOccurrences(of: self.baseURL, with: "")
             return path
         }
     }

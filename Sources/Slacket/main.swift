@@ -30,7 +30,7 @@ let slacket = Slacket(using: router)
 #if os(OSX)
 let serverPort = 8090
 #else
-let serverPort = 80
+let serverPort = 8090
 #endif
 
 let server = HttpServer.listen(port: serverPort, delegate: router)

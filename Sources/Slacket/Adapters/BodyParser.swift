@@ -63,9 +63,9 @@ extension ParsedBody {
         } else if contentTypeString.startsWith(prefix: "application/x-www-form-urlencoded"),
             let text = String(data: data, encoding: NSUTF8StringEncoding) {
             var params = [String: String]()
-            let pairs = text.components(separatedBy: "&")
+            let pairs = text.separatedComponents(separatedBy: "&")
             for pair in pairs {
-                let keyValue = pair.components(separatedBy: "=")
+                let keyValue = pair.separatedComponents(separatedBy: "=")
                 if keyValue.count > 1 {
                     params.updateValue(keyValue[1], forKey: keyValue[0])
                 }

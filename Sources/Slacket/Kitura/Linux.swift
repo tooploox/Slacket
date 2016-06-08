@@ -60,6 +60,26 @@ extension String {
             return self.data(using: NSUTF8StringEncoding)
         #endif
     }
+    
+    func replaceOccurrences(of: String, with: String) -> String {
+        #if os(Linux)
+            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
+            return self.stringByReplacingOccurrencesOfString(of, withString: with)
+        #else
+            return self.replaceOccurrences(of: of, with: with)
+        #endif
+
+    }
+    
+    func separatedComponents(separatedBy separator: String) -> [String] {
+        #if os(Linux)
+            // from https://github.com/apple/swift-corelibs-foundation/blob/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation/String.swift
+            return self.componentsSeparatedByString(separator)
+        #else
+            return self.components(separatedBy: separator)
+        #endif
+    }
+    
 }
 
 extension NSData: SocketReader {
