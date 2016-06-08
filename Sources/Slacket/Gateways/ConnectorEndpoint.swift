@@ -42,9 +42,13 @@ extension ConnectorEndpoint {
     }
     
     var resource: HttpResourse {
+        var portString = ""
+        if let portNum = self.port {
+            portString = "\(portNum)"
+        }
         return HttpResourse(schema: self.scheme.rawValue,
                             host: self.host,
-                            port: "\(self.port)",
+                            port: portString,
                             path: "/\(self.path)")
     }
     
