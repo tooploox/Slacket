@@ -65,7 +65,7 @@ extension ServerConfig {
         #if os(OSX)
             return .Http
         #else
-            return .Http
+            return .Https
         #endif
     }
     
@@ -73,7 +73,7 @@ extension ServerConfig {
         #if os(OSX)
             return "localhost"
         #else
-            return "ec2-54-187-54-22.us-west-2.compute.amazonaws.com"
+            return "slacket.link"
         #endif
     }
     
