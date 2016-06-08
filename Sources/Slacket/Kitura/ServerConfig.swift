@@ -73,7 +73,7 @@ extension ServerConfig {
         #if os(OSX)
             return "localhost"
         #else
-            return "slacket.link"
+            return "104.155.17.238"
         #endif
     }
     
