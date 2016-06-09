@@ -76,14 +76,14 @@ extension String {
     }
     
     func stringByAddingPercentEncoding() -> String? {
-        let extraCharacters = "+&" // NSCharacterSet.URLHostAllowedCharacterSet() doesn't escape those chars by default
         var characterSet = NSMutableCharacterSet()
-        characterSet.formUnion(with: NSCharacterSet.urlHostAllowed())
-        characterSet.removeCharacters(in: extraCharacters)
+        characterSet.formUnion(with: NSCharacterSet.alphanumerics())
+        characterSet.addCharacters(in: "_")
         #if os(Linux)
             // from https://github.com/apple/swift-corelibs-foundation/blob/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation/NSURL.swift
             return self.stringByAddingPercentEncodingWithAllowedCharacters(characterSet)
         #else
+            print(self.addingPercentEncoding(withAllowedCharacters: characterSet))
             return self.addingPercentEncoding(withAllowedCharacters: characterSet)
         #endif
     }
