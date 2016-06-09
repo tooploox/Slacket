@@ -78,7 +78,7 @@ extension String {
     func stringByAddingPercentEncoding() -> String? {
         #if os(Linux)
             // from https://github.com/apple/swift-corelibs-foundation/blob/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation/NSURL.swift
-            return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet().mutableCopy().addCharacters(in: "_"))
+            return self.stringByAddingPercentEncodingWithAllowedCharacters((NSCharacterSet.alphanumericCharacterSet().mutableCopy() as! NSMutableCharacterSet).addCharacters(in: "_"))
         #else
             let characterSet = NSMutableCharacterSet()
             characterSet.formUnion(with: NSCharacterSet.alphanumerics())
