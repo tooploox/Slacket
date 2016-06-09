@@ -61,7 +61,7 @@ extension String {
             // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
             return self.stringByReplacingOccurrencesOfString(of, withString: with)
         #else
-            return self.replaceOccurrences(of: of, with: with)
+            return self.replacingOccurrences(of: of, with: with)
         #endif
 
     }
