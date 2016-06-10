@@ -52,13 +52,13 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
             }
             
             if let data = data where 200...299 ~= status,
-                let parsedBody = BodyParser.parse(data, contentType: accessTokenEndpoint.acceptContentType),
+                let parsedBody = ParsedBody.init(data: data, contentType: accessTokenEndpoint.acceptContentType),
                 let accessTokenResponse = PocketAccessTokenResponseParser.parse(body: parsedBody) {
                 let accessTokenResponse = accessTokenResponse as PocketAccessTokenResponseType
                 completion(accessTokenResponse)
-                
+            } else {
+                completion(nil)
             }
-            completion(nil)
         }
     }
 }
