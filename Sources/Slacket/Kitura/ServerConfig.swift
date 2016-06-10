@@ -76,14 +76,6 @@ extension ServerConfig {
             return "ec2-54-187-54-22.us-west-2.compute.amazonaws.com"
         #endif
     }
-    
-    var port: Int? {
-        #if os(OSX)
-            return 8090
-        #else
-            return 8090
-        #endif
-    }
 }
 
 protocol ErrorType {
