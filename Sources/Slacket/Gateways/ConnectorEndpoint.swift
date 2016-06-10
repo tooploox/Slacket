@@ -21,10 +21,6 @@ protocol ConnectorEndpoint: URLType {
 
 extension ConnectorEndpoint {
     
-    var port: Int? {
-        return 80
-    }
-    
     var headers: [String: String]? {
         return nil
     }

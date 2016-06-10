@@ -62,7 +62,7 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
         switch self {
         case .RequestAuthorization(let req):
             if let redirectUrl = req.pocketRedirectUri.stringByAddingPercentEncoding() {
-                return "\(self.absoluteString)?request_token=\(response.pocketRequestToken)&redirect_uri=\(redirectUrl)"
+                return "https://getpocket.com/auth/authorize?request_token=\(response.pocketRequestToken)&redirect_uri=\(redirectUrl)"
             } else {
                 return nil
             }
