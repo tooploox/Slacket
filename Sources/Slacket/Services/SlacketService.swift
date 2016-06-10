@@ -22,9 +22,9 @@ struct SlacketService: SlacketServiceProvider {
         if let slacketUser = SlacketUserDataStore.sharedInstance.get(keyId: request.userId) where slacketUser.pocketAccessToken != nil {
             
             // "echo" response
-            let message = SlackMessage(responseVisibility: .Ephemeral,
-                                       text: "\(request.command) \(request.text)")
-            respond(message)
+            //let message = SlackMessage(responseVisibility: .Ephemeral,
+            //                           text: "\(request.command) \(request.text)")
+            //respond(message)
             
             let url = request.text.trimWhitespace()
             PocketApiConnector.addLink(url: url,
@@ -35,7 +35,8 @@ struct SlacketService: SlacketServiceProvider {
                                         }
                                         
                                         let slackMessage = SlackMessage(responseVisibility: .Ephemeral, text: "successfully added link")
-                                        SlackApiConnector.send(message: slackMessage, inResponse: request)
+                                        respond(slackMessage)
+                                        //SlackApiConnector.send(message: slackMessage, inResponse: request)
             }
             
         } else {
