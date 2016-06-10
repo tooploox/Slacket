@@ -76,14 +76,6 @@ extension ServerConfig {
             return "slacket.link"
         #endif
     }
-    
-    var port: Int? {
-        #if os(OSX)
-            return 8090
-        #else
-            return 8090
-        #endif
-    }
 }
 
 protocol ErrorType {
