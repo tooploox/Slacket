@@ -27,9 +27,8 @@ struct Slacket: ServerModuleType {
     }
     
     mutating func setupRoutes() {
-        router.all("*", middleware: StaticFileServer(path: "../../public", options: nil))
+        
         router.all("api/*", middleware: BodyParser())
         router.all("api/*", middleware: SlacketHandler())
-        
     }
 }
