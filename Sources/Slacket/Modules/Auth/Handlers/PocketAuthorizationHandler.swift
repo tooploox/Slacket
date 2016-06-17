@@ -41,8 +41,8 @@ enum PocketAuthorizationAction: HandlerAction, ServerConfig {
         return "/" + self.path
     }
     
-    var method: Kitura.RouterMethod {
-        return .Get
+    var method: RouterMethod {
+        return .get
     }
     
     var requiredQueryParameters: [String]? {
@@ -68,13 +68,13 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
             next()
             return
         }
-        let parsedBody = request.queryParams
+        let parsedBody = request.queryParameters
         
         switch action {
         case .authorizationRequest:
             let view = RedirectView(response: response)
             
-            if let slacketUser = SlacketUserParser.parse(body: ParsedBody.UrlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil {
+            if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil {
                 PocketAuthorizationRequestService.process(user: slacketUser) { redirectUrl in
                     guard let redirectUrl = redirectUrl else {
                         fatalError()
@@ -86,7 +86,7 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
         case .accessTokenRequest:
             let view = AuthorizeView(response: response)
             
-            if let slacketUser = SlacketUserParser.parse(body: ParsedBody.UrlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil,
+            if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil,
                 let user = slacketUser as? SlacketUser{
                 PocketAccessTokenRequestService.process(user: slacketUser) { accessTokenResponse in
                     guard let accessTokenResponse = accessTokenResponse else {

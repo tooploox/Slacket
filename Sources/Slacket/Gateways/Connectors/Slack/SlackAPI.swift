@@ -25,10 +25,10 @@ extension SlackAppType {
 
 enum SlackAPI: ConnectorEndpoint {
     
-    case Respond(command: SlackCommandType, message: SlackMessageType)
+    case respond(command: SlackCommandType, message: SlackMessageType)
     
     var scheme: URLSchema {
-        return .Https
+        return .https
     }
     
     var host: String {
@@ -37,7 +37,7 @@ enum SlackAPI: ConnectorEndpoint {
     
     var path: String {
         switch self {
-        case .Respond(let command, _):
+        case .respond(let command, _):
             let responseUrl = command.responseUrl
             let path = responseUrl.replaceOccurrences(of: self.baseURL, with: "")
             return path
@@ -51,7 +51,7 @@ enum SlackAPI: ConnectorEndpoint {
     }
     
     var method: RouterMethod {
-        return .Post
+        return .post
     }
     
     var data: NSData? {
@@ -60,7 +60,7 @@ enum SlackAPI: ConnectorEndpoint {
     
     private var parsedBody: ParsedBody? {
         switch self {
-        case .Respond(_, let message):
+        case .respond(_, let message):
             return SlackMessageParser.parse(model: message)
         }
     }

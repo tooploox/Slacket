@@ -12,11 +12,11 @@ import SimpleHttpClient
 
 enum PocketAuthorizeAPI: ConnectorEndpoint {
     
-    case RequestAuthorization(PocketAuthorizationRequestType)
-    case RequestAccessToken(PocketAccessTokenRequestType)
+    case requestAuthorization(PocketAuthorizationRequestType)
+    case requestAccessToken(PocketAccessTokenRequestType)
     
     var scheme: URLSchema {
-        return .Https
+        return .https
     }
     
     var host: String {
@@ -25,9 +25,9 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     
     var path: String {
         switch self {
-        case .RequestAuthorization:
+        case .requestAuthorization:
             return "v3/oauth/request"
-        case .RequestAccessToken:
+        case .requestAccessToken:
             return "v3/oauth/authorize"
             
         }
@@ -51,7 +51,7 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     }
     
     var method: RouterMethod {
-        return .Post
+        return .post
     }
     
     var data: NSData? {
@@ -60,13 +60,13 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     
     func redirectUrl(for response: PocketAuthorizationResponseType) -> String? {
         switch self {
-        case .RequestAuthorization(let req):
+        case .requestAuthorization(let req):
             if let redirectUrl = req.pocketRedirectUri.stringByAddingPercentEncoding() {
                 return "https://getpocket.com/auth/authorize?request_token=\(response.pocketRequestToken)&redirect_uri=\(redirectUrl)"
             } else {
                 return nil
             }
-        case .RequestAccessToken:
+        case .requestAccessToken:
             return nil
             
         }
@@ -74,9 +74,9 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     
     private var parsedBody: ParsedBody? {
         switch self {
-        case .RequestAuthorization(let req):
+        case .requestAuthorization(let req):
             return PocketAuthorizationRequestParser.parse(model: req)
-        case .RequestAccessToken(let req):
+        case .requestAccessToken(let req):
             return PocketAccessTokenRequestParser.parse(model: req)
         }
     }

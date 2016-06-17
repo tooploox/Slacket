@@ -12,8 +12,8 @@ import Foundation
 
 enum SlackMessageVisibility {
     
-    case Ephemeral // Visible only to user that issued the command
-    case InChannel // Visible to all members of the channel in which user typed the command
+    case ephemeral // Visible only to user that issued the command
+    case inChannel // Visible to all members of the channel in which user typed the command
 }
 
 // https://api.slack.com/docs/formatting

@@ -17,7 +17,7 @@ struct PocketAddResponseParser: ParserDecoderType {
     
     static func decode(raw: ParsedType) -> Parsable? {
         let itemJson = raw["item"]
-        if let item = PocketItemParser.parse(body: ParsedBody.Json(itemJson)),
+        if let item = PocketItemParser.parse(body: ParsedBody.json(itemJson)),
             let status = raw["status"].int {
             return PocketAddResponse(item: item, status: status)
         } else {

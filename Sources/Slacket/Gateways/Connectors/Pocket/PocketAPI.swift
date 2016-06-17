@@ -24,10 +24,10 @@ extension PocketAppType {
 
 enum PocketAPI: ConnectorEndpoint {
     
-    case Add(PocketAddRequestType)
+    case add(PocketAddRequestType)
     
     var scheme: URLSchema {
-        return .Https
+        return .https
     }
     
     var host: String {
@@ -36,7 +36,7 @@ enum PocketAPI: ConnectorEndpoint {
     
     var path: String {
         switch self {
-        case .Add:
+        case .add:
             return "v3/add"
         }
     }
@@ -59,7 +59,7 @@ enum PocketAPI: ConnectorEndpoint {
     }
     
     var method: RouterMethod {
-        return .Post
+        return .post
     }
     
     var data: NSData? {
@@ -68,7 +68,7 @@ enum PocketAPI: ConnectorEndpoint {
     
     private var parsedBody: ParsedBody? {
         switch self {
-        case .Add(let req):
+        case .add(let req):
             return PocketAddRequestParser.parse(model: req)
         }
     }

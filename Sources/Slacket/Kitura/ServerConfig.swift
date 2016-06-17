@@ -12,8 +12,8 @@ import HeliumLogger
 import LoggerAPI
 
 enum URLSchema: String {
-    case Http = "http"
-    case Https = "https"
+    case http = "http"
+    case https = "https"
 }
 
 protocol URLType {
@@ -63,9 +63,9 @@ extension ServerConfig {
     
     var scheme: URLSchema {
         #if os(OSX)
-            return .Http
+            return .http
         #else
-            return .Https
+            return .https
         #endif
     }
     
@@ -96,6 +96,6 @@ extension ErrorType {
     func getError(message: String) -> NSError {
         return NSError(domain: Self.errorDomain,
                                  code: 1,
-                                 userInfo: [NSLocalizedDescriptionKey: message])
+                                 userInfo: nil)
     }
 }

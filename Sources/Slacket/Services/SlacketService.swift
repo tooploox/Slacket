@@ -34,7 +34,7 @@ struct SlacketService: SlacketServiceProvider {
                                             fatalError()
                                         }
                                         
-                                        let slackMessage = SlackMessage(responseVisibility: .Ephemeral, text: "successfully added link")
+                                        let slackMessage = SlackMessage(responseVisibility: .ephemeral, text: "successfully added link")
                                         respond(slackMessage)
                                         //SlackApiConnector.send(message: slackMessage, inResponse: request)
             }
@@ -46,7 +46,7 @@ struct SlacketService: SlacketServiceProvider {
                                       pocketAccessToken: nil,
                                       pocketUsername: nil)
             SlacketUserDataStore.sharedInstance.set(data: newUser)
-            let message = SlackMessage(responseVisibility: .Ephemeral,
+            let message = SlackMessage(responseVisibility: .ephemeral,
                                        text: "Please go to \(PocketAuthorizationAction.authorizationRequest.redirectUrl(user: newUser))")
             respond(message)
         }

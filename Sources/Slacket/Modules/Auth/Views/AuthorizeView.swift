@@ -20,6 +20,6 @@ struct AuthorizeView: ParsedBodyResponder {
     let response: RouterResponse
     
     func show(message: String) {
-        self.show(body: ParsedBody.Text(message))
+        self.show(body: ParsedBody.text(message))
     }
 }

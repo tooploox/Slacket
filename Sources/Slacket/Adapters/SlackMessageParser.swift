@@ -16,9 +16,9 @@ private extension SlackMessageVisibility {
     
     var slackValue: String {
         switch self {
-        case .Ephemeral:
+        case .ephemeral:
             return "ephemeral"
-        case .InChannel:
+        case .inChannel:
             return "in_channel"
         }
     }
@@ -34,6 +34,6 @@ struct SlackMessageParser: ParserEncoderType {
         dictionary["text"] = model.text
         dictionary["response_type"] = model.responseVisibility.slackValue
         
-        return JSON(dictionary)
+        return JSON(dictionary as AnyObject)
     }
 }

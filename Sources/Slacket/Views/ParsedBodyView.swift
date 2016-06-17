@@ -21,16 +21,20 @@ extension ParsedBodyResponder {
     
     func show(body: ParsedBody) {
         response.status(.OK)
-        response.setHeader(body.contentTypeHeaderKey, value: body.contentTypeHeaderValue)
+        response.headers.append(body.contentTypeHeaderKey, value: body.contentTypeHeaderValue)
         switch body {
-        case .Json(let json):
+        case .json(let json):
             response.send(json.description)
-        case .UrlEncoded(let dict):
+        case .urlEncoded(let dict):
             let keyValue = dict.map { "\($0.0)=\($0.1)" }
             let joined = keyValue.joinedBy(separator: "&")
             response.send(joined)
-        case .Text(let text):
+        case .text(let text):
             response.send(text)
+        case .raw(let data):
+            response.send(data: data)
+        case .multipart:
+            break
         }
         
         do {
