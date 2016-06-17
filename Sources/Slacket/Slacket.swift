@@ -36,7 +36,16 @@ struct Slacket: ServerModuleType {
     }
 
     mutating func setupRoutes() {
+        //router.get("/", middleware: StaticFileServer(path: "/Users/jakubtomanik/Documents/SwiftAPI/Slacket_prv/public/"))
+        router.get("/", middleware: StaticFileServer(path: calculatePath()))
         router.all("api/*", middleware: BodyParser())
         router.all("api/*", middleware: SlacketHandler())
+    }
+
+    private func calculatePath() -> String {
+        let currentPath = #file
+        let baseDir = currentPath.replaceOccurrences(of: "Sources/Slacket/Slacket.swift", with: "")
+        let publicDir = baseDir+"public/"
+        return publicDir
     }
 }
