@@ -12,12 +12,15 @@ import Kitura
 import HeliumLogger
 import LoggerAPI
 
-enum PocketAuthorizationAction: HandlerAction, ServerConfig {
+enum PocketAuthorizationAction: HandlerAction {
     
     case authorizationRequest
     case accessTokenRequest
     
-    static func from(route: String) -> PocketAuthorizationAction? {
+    static func from(route: String?) -> PocketAuthorizationAction? {
+        guard let route = route else {
+            return nil
+        }
         switch route {
         case let r where r.startsWith(prefix: PocketAuthorizationAction.authorizationRequest.route):
             return PocketAuthorizationAction.authorizationRequest
@@ -36,11 +39,11 @@ enum PocketAuthorizationAction: HandlerAction, ServerConfig {
             return SlacketAction.authorizePocket.path + "/respond"
         }
     }
-    
+
     var route: String {
         return "/" + self.path
     }
-    
+
     var method: RouterMethod {
         return .get
     }
@@ -50,7 +53,7 @@ enum PocketAuthorizationAction: HandlerAction, ServerConfig {
     }
     
     func redirectUrl(user: SlacketUserType) -> String {
-        return "\(self.absoluteString)?user=\(user.slackId)&team=\(user.slackTeamId)"
+        return "\(ExternalServerConfig().baseURL+self.path)?user=\(user.slackId)&team=\(user.slackTeamId)"
     }
 }
 

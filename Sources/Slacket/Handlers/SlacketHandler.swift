@@ -12,12 +12,15 @@ import Kitura
 import HeliumLogger
 import LoggerAPI
 
-enum SlacketAction: HandlerAction, ServerConfig {
+enum SlacketAction: HandlerAction {
     
     case addCommand
     case authorizePocket
     
-    static func from(route: String) -> SlacketAction? {
+    static func from(route: String?) -> SlacketAction? {
+        guard let route = route else {
+            return nil
+        }
         switch route {
         case let r where r.startsWith(prefix: SlacketAction.addCommand.route):
             return SlacketAction.addCommand

@@ -19,7 +19,7 @@ protocol HandlerAction {
     
     init?(request: RouterRequest)
     
-    static func from(route: String) -> Self?
+    static func from(route: String?) -> Self?
 }
 
 extension HandlerAction {
@@ -73,7 +73,7 @@ extension HandlerAction {
 extension HandlerAction {
     
     init?(request: RouterRequest) {
-        guard let action = Self.from(route: request.matchedPath) where
+        guard let action = Self.from(route: request.parsedURL.path) where
             request.method == action.method && action.hasAllRequiredParameters(request: request) else {
                     return nil
         }

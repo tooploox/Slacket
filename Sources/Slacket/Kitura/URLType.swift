@@ -1,5 +1,5 @@
 //
-//  APIService.swift
+//  URLType.swift
 //  Slacket
 //
 //  Created by Jakub Tomanik on 20/05/16.
@@ -35,7 +35,11 @@ protocol URLType {
 }
 
 extension URLType {
-    
+
+    var scheme: URLSchema {
+        return .http
+    }
+
     var port: Int? {
         return nil
     }
@@ -54,35 +58,6 @@ extension URLType {
     
     var absoluteString: String {
         return "\(self.baseURL)\(self.path)"
-    }
-}
-
-protocol ServerConfig: URLType {}
-
-extension ServerConfig {
-    
-    var scheme: URLSchema {
-        #if os(OSX)
-            return .http
-        #else
-            return .https
-        #endif
-    }
-    
-    var host: String {
-        #if os(OSX)
-            return "localhost"
-        #else
-            return "slacket.link"
-        #endif
-    }
-    
-    var port: Int? {
-        #if os(OSX)
-            return 8090
-        #else
-            return 8090
-        #endif
     }
 }
 
