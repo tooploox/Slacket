@@ -19,6 +19,6 @@ struct PocketAuthorizationRequestParser: ParserEncoderType {
         var dictionary = [String: String]()
         dictionary["consumer_key"] = model.pocketConsumerKey
         dictionary["redirect_uri"] = model.pocketRedirectUri
-        return JSON(dictionary as AnyObject)
+        return JSON(dictionary as! AnyObject)
     }
 }

@@ -34,6 +34,6 @@ struct SlackMessageParser: ParserEncoderType {
         dictionary["text"] = model.text
         dictionary["response_type"] = model.responseVisibility.slackValue
         
-        return JSON(dictionary as AnyObject)
+        return JSON(dictionary as! AnyObject)
     }
 }

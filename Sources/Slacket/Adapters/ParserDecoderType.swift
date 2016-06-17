@@ -26,7 +26,7 @@ extension ParserDecoderType where ParsedType == JsonType {
         case .json(let json):
             return self.decode(raw: json)
         case .urlEncoded(let dict):
-            return self.decode(raw: JSON(dict as AnyObject))
+            return self.decode(raw: JSON(dict as! AnyObject))
         default:
             return nil
         }
