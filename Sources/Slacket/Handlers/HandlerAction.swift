@@ -11,20 +11,20 @@ import Kitura
 
 protocol HandlerAction {
     
-    var method: Kitura.RouterMethod { get }
+    var method: RouterMethod { get }
     var route: String { get }
     var requiredParameters: [String]? { get}
     var requiredQueryParameters: [String]? { get }
     var requiredBodyType: ParsedBody? { get }
     
-    init?(request: Kitura.RouterRequest)
+    init?(request: RouterRequest)
     
     static func from(route: String) -> Self?
 }
 
 extension HandlerAction {
     
-    var routerMethod: Kitura.RouterMethod { return .Get }
+    var routerMethod: RouterMethod { return .get }
     var requiredParameters: [String]? { return nil }
     var requiredQueryParameters: [String]? { return nil }
     var requiredBodyType: ParsedBody? { return nil }
@@ -34,8 +34,8 @@ extension HandlerAction {
     
     func hasAllRequiredParameters(request: RouterRequest ) -> Bool {
         var result = true
-        result = result && hasRequiredParameters(params: request.params)
-        result = result && hasRequiredQueryParameters(params: request.queryParams)
+        result = result && hasRequiredParameters(params: request.parameters)
+        result = result && hasRequiredQueryParameters(params: request.queryParameters)
         result = result && hasRequiredBodyType(body: request.body)
         return result
     }
@@ -72,7 +72,7 @@ extension HandlerAction {
 
 extension HandlerAction {
     
-    init?(request: Kitura.RouterRequest) {
+    init?(request: RouterRequest) {
         guard let action = Self.from(route: request.matchedPath) where
             request.method == action.method && action.hasAllRequiredParameters(request: request) else {
                     return nil

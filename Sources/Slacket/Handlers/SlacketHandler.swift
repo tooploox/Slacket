@@ -41,19 +41,19 @@ enum SlacketAction: HandlerAction, ServerConfig {
         return "/" + self.path
     }
     
-    var method: Kitura.RouterMethod {
+    var method: RouterMethod {
         switch self {
         case .addCommand:
-            return .Post
+            return .post
         case .authorizePocket:
-            return .Get
+            return .get
         }
     }
     
     var requiredBodyType: ParsedBody? {
         switch self {
         case .addCommand:
-            return ParsedBody.UrlEncoded([:])
+            return ParsedBody.urlEncoded([:])
         case .authorizePocket:
             return nil
         }

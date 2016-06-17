@@ -23,10 +23,10 @@ extension ParserDecoderType where ParsedType == JsonType {
             return nil
         }
         switch body {
-        case .Json(let json):
+        case .json(let json):
             return self.decode(raw: json)
-        case .UrlEncoded(let dict):
-            return self.decode(raw: JSON(dict))
+        case .urlEncoded(let dict):
+            return self.decode(raw: JSON(dictionaryLiteral: dict))
         default:
             return nil
         }
@@ -40,7 +40,7 @@ extension ParserDecoderType where ParsedType == DictionaryType {
             return nil
         }
         switch body {
-        case .UrlEncoded(let dict):
+        case .urlEncoded(let dict):
             return self.decode(raw: dict)
         default:
             return nil
@@ -55,7 +55,7 @@ extension ParserDecoderType where ParsedType == TextType {
             return nil
         }
         switch body {
-        case .Text(let text):
+        case .text(let text):
             return self.decode(raw: text)
         default:
             return nil

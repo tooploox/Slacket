@@ -21,7 +21,7 @@ struct Slacket: ServerModuleType {
     
     let router: Router
     
-    init(using router: Kitura.Router) {
+    init(using router: Router) {
         self.router = router
         self.setupRoutes()
     }

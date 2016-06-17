@@ -12,14 +12,14 @@ typealias RedirectUrl = String
 
 protocol PocketAuthorizationRequestServiceProvider {
     
-    static func process(user: SlacketUserType, respond: RedirectUrl? -> Void )
+    static func process(user: SlacketUserType, respond: (RedirectUrl?) -> Void )
 }
 
 struct PocketAuthorizationRequestService: PocketAuthorizationRequestServiceProvider {
     
     static let errorDomain = "PocketAuthorizationRequestService"
     
-    static func process(user: SlacketUserType, respond: RedirectUrl? -> Void ) {
+    static func process(user: SlacketUserType, respond: (RedirectUrl?) -> Void ) {
         guard let user = user as? SlacketUser else {
             respond(nil)
             return

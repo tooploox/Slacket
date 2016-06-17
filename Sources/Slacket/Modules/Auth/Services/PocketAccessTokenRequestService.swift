@@ -10,14 +10,14 @@ import Foundation
 
 protocol PocketAccessTokenRequestServiceProvider {
     
-    static func process(user: SlacketUserType, respond: PocketAccessTokenResponseType? -> Void)
+    static func process(user: SlacketUserType, respond: (PocketAccessTokenResponseType?) -> Void)
 }
 
 struct PocketAccessTokenRequestService: PocketAccessTokenRequestServiceProvider {
     
     static let errorDomain = "PocketAccessTokenRequestService"
     
-    static func process(user: SlacketUserType, respond: PocketAccessTokenResponseType? -> Void) {
+    static func process(user: SlacketUserType, respond: (PocketAccessTokenResponseType?) -> Void) {
         guard let user = user as? SlacketUser else {
             respond(nil)
             return

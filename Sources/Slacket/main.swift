@@ -13,8 +13,8 @@ import LoggerAPI
 
 protocol ServerModuleType {
     
-    var router: Kitura.Router { get }
-    init(using router: Kitura.Router)
+    var router: Router { get }
+    init(using router: Router)
     mutating func setupRoutes()
 }
 
@@ -22,7 +22,7 @@ protocol ServerModuleType {
 Log.logger = HeliumLogger()
 
 // All Web apps need a router to define routes
-let router = Kitura.Router()
+let router = Router()
 
 let slacket = Slacket(using: router)
 
@@ -33,5 +33,5 @@ let serverPort = 8090
 let serverPort = 8090
 #endif
 
-let server = HttpServer.listen(port: serverPort, delegate: router)
-Server.run()
+let server = HTTPServer.listen(port: serverPort, delegate: router)
+Kitura.run()

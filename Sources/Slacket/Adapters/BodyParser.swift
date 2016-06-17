@@ -18,12 +18,16 @@ extension ParsedBody {
     
     var contentType: String {
         switch self {
-        case .Text:
+        case .text:
             return "text/plain"
-        case .UrlEncoded:
+        case .urlEncoded:
             return "application/x-www-form-urlencoded"
-        case .Json:
+        case .json:
             return "application/json"
+        case .multipart:
+            return "multipart/mixed"
+        case raw:
+            return "application/binary"
         }
     }
     
@@ -44,12 +48,16 @@ extension ParsedBody {
     
     var data: NSData? {
         switch self {
-        case .Text(let text):
+        case .text(let text):
             return self.encode(text: text)
-        case .UrlEncoded(let parameters):
+        case .urlEncoded(let parameters):
             return self.encode(parameters: parameters)
-        case .Json(let json):
+        case .json(let json):
             return self.encode(json: json)
+        case .multipart(let parts):
+            return self.encode(multipart: parts)
+        case .raw(let data):
+            return data
         }
     }
     
@@ -59,7 +67,7 @@ extension ParsedBody {
         }
         
         if contentTypeString.startsWith(prefix: "text/plain"), let text = String(data: data, encoding: NSUTF8StringEncoding) {
-            self = .Text(text)
+            self = .text(text)
         } else if contentTypeString.startsWith(prefix: "application/x-www-form-urlencoded"),
             let text = String(data: data, encoding: NSUTF8StringEncoding) {
             var params = [String: String]()
@@ -70,11 +78,11 @@ extension ParsedBody {
                     params.updateValue(keyValue[1], forKey: keyValue[0])
                 }
             }
-            self = .UrlEncoded(params)
+            self = .urlEncoded(params)
         } else if contentTypeString.startsWith(prefix: "application/json") {
             let json = JSON(data: data)
             if json != JSON.null {
-                self = .Json(json)
+                self = .json(json)
             } else {
                 return nil
             }
@@ -95,5 +103,10 @@ extension ParsedBody {
     
     private func encode(text: String) -> NSData? {
         return text.encodedData
+    }
+    
+    private func encode(multipart parts: [Part]) -> NSData? {
+        // TODO: - Implement
+        return nil
     }
 }

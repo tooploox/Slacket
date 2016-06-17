@@ -14,11 +14,11 @@ extension ParsedBody {
     func isSameTypeAs(other: ParsedBody) -> Bool {
         
         switch (self, other) {
-        case (.Json, .Json):
+        case (.json, .json):
             return true
-        case (.Text, .Text):
+        case (.text, .text):
             return true
-        case (.UrlEncoded, .UrlEncoded):
+        case (.urlEncoded, .urlEncoded):
             return true
         default:
             return false

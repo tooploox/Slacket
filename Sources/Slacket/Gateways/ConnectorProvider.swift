@@ -15,9 +15,9 @@ struct ConnectorProvider<Endpoint: ConnectorEndpoint> {
     
     static func request(endpoint: Endpoint, completionHandler handler: NetworkRequestCompletionHandler) {
         switch endpoint.method {
-        case .Get:
+        case .get:
             HttpClient.get(resource: endpoint.resource, headers: endpoint.headers, completionHandler: handler)
-        case .Post:
+        case .post:
             HttpClient.post(resource: endpoint.resource, headers: endpoint.headers, data: endpoint.data, completionHandler: handler)
         default:
             fatalError("API Client method not supported")

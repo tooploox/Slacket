@@ -14,13 +14,13 @@ import SimpleHttpClient
 
 protocol PocketAuthorizeAPIConnectorType {
     
-    static func requestAuthorization(redirectUrl url: RedirectUrl, completion: (PocketAuthorizationResponseType, RedirectUrl)? -> Void )
-    static func requestAccessToken(data: PocketAuthorizationData, completion: PocketAccessTokenResponseType? -> Void )
+    static func requestAuthorization(redirectUrl url: RedirectUrl, completion: ((PocketAuthorizationResponseType, RedirectUrl)?) -> Void )
+    static func requestAccessToken(data: PocketAuthorizationData, completion: (PocketAccessTokenResponseType?) -> Void )
 }
 
 struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
     
-    static func requestAuthorization(redirectUrl url: RedirectUrl, completion: (PocketAuthorizationResponseType, RedirectUrl)? -> Void ) {
+    static func requestAuthorization(redirectUrl url: RedirectUrl, completion: ((PocketAuthorizationResponseType, RedirectUrl)?) -> Void ) {
         
         let requestData = PocketAuthorizationRequest(pocketRedirectUri: url)
         let authorizeEndpoint = PocketAuthorizeAPI.RequestAuthorization(requestData)
@@ -41,7 +41,7 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
         }
     }
     
-    static func requestAccessToken(data: PocketAuthorizationData, completion: PocketAccessTokenResponseType? -> Void ) {
+    static func requestAccessToken(data: PocketAuthorizationData, completion: (PocketAccessTokenResponseType?) -> Void ) {
         
         let requestData = PocketAccessTokenRequest(pocketRequestToken: data.requestToken)
         let accessTokenEndpoint = PocketAuthorizeAPI.RequestAccessToken(requestData)

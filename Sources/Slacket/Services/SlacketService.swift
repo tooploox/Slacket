@@ -10,14 +10,14 @@ import Foundation
 
 protocol SlacketServiceProvider {
     
-    static func process(request: SlackCommandType, respond: (SlackMessageType -> ()))
+    static func process(request: SlackCommandType, respond: ((SlackMessageType) -> ()))
 }
 
 struct SlacketService: SlacketServiceProvider {
     
     static let errorDomain = "SlacketUserService"
     
-    static func process(request: SlackCommandType, respond: (SlackMessageType -> ())) {
+    static func process(request: SlackCommandType, respond: ((SlackMessageType) -> ())) {
         
         if let slacketUser = SlacketUserDataStore.sharedInstance.get(keyId: request.userId) where slacketUser.pocketAccessToken != nil {
             

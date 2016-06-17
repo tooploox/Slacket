@@ -22,7 +22,7 @@ extension ParserEncoderType where ParsedType == JsonType {
         guard let json = self.encode(model: model) else {
             return nil
         }
-        return ParsedBody.Json(json)
+        return ParsedBody.json(json)
     }
 }
 
@@ -32,7 +32,7 @@ extension ParserEncoderType where ParsedType == DictionaryType {
         guard let dict = self.encode(model: model) else {
             return nil
         }
-        return ParsedBody.UrlEncoded(dict)
+        return ParsedBody.urlEncoded(dict)
     }
 }
 
@@ -42,6 +42,6 @@ extension ParserEncoderType where ParsedType == TextType {
         guard let text = self.encode(model: model) else {
             return nil
         }
-        return ParsedBody.Text(text)
+        return ParsedBody.text(text)
     }
 }
