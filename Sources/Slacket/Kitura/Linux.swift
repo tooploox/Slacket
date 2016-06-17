@@ -21,23 +21,13 @@ extension Sequence where Iterator.Element == String {
 extension String {
     
     func startsWith(prefix: String) -> Bool {
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return self.hasPrefix(prefix)
-        #else
-            return self.hasPrefix(prefix)
-        #endif
+        return self.hasPrefix(prefix)
     }
-    
+
     func trimWhitespace() -> String {
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return self.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " "))
-        #else
-            return self.trimmingCharacters(in: NSCharacterSet(charactersIn: " "))
-        #endif
+        return self.trimmingCharacters(in: NSCharacterSet(charactersIn: " "))
     }
-    
+
     func withoutPercentEncoding() -> String? {
         #if os(Linux)
             // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
@@ -46,68 +36,37 @@ extension String {
             return self.removingPercentEncoding
         #endif
     }
-    
-    var encodedData: NSData? {
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return self.dataUsingEncoding(NSUTF8StringEncoding)
-        #else
-            return self.data(using: NSUTF8StringEncoding)
-        #endif
-    }
-    
-    func replaceOccurrences(of: String, with: String) -> String {
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return self.stringByReplacingOccurrencesOfString(of, withString: with)
-        #else
-            return self.replacingOccurrences(of: of, with: with)
-        #endif
 
+    var encodedData: NSData? {
+        return self.data(using: NSUTF8StringEncoding)
     }
-    
+
+    func replaceOccurrences(of: String, with: String) -> String {
+        return self.replacingOccurrences(of: of, with: with)
+    }
+
     func separatedComponents(separatedBy separator: String) -> [String] {
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/blob/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation/String.swift
-            return self.componentsSeparatedByString(separator)
-        #else
-            return self.components(separatedBy: separator)
-        #endif
+        return self.components(separatedBy: separator)
     }
     
     func stringByAddingPercentEncoding() -> String? {
+        let characterSet = NSMutableCharacterSet(charactersIn: "_")
+        characterSet.formUnion(with: NSCharacterSet.alphanumerics())
         #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/blob/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation/NSURL.swift
-            return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet())
+            return self.stringByAddingPercentEncodingWithAllowedCharacters(characterSet)
         #else
-            let characterSet = NSMutableCharacterSet()
-            characterSet.formUnion(with: NSCharacterSet.alphanumerics())
-            characterSet.addCharacters(in: "_")
             return self.addingPercentEncoding(withAllowedCharacters: characterSet)
         #endif
     }
 }
 
 extension NSData: SocketReader {
-    
     public func readString() throws -> String? {
-        
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return String(data: self, encoding: NSUTF8StringEncoding)
-        #else
-            return String(data: self, encoding: NSUTF8StringEncoding)
-        #endif
+        return String(data: self, encoding: NSUTF8StringEncoding)
     }
-    
+
     public func read(into data: NSMutableData) throws -> Int {
-        
-        #if os(Linux)
-            // from https://github.com/apple/swift-corelibs-foundation/tree/d2dc9f3cf91100b752476a72c519a8a629d9df2c/Foundation
-            return try self.read(into: data)
-        #else
-            return try self.read(into: data)
-        #endif
+        return try self.read(into: data)
     }
 }
 
