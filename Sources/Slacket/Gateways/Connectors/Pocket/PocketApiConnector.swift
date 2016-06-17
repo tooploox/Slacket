@@ -30,7 +30,7 @@ struct PocketApiConnector: PocketConnectorType {
                                                 title: nil,
                                                 tags: tags,
                                                 tweetId: nil)
-        let pocketEndpoint = PocketAPI.Add(pocketAddRequest)
+        let pocketEndpoint = PocketAPI.add(pocketAddRequest)
         pocketEndpoint.request() { error, status, headers, data in
             guard let status = status else {
                 fatalError()

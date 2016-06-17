@@ -23,7 +23,7 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
     static func requestAuthorization(redirectUrl url: RedirectUrl, completion: ((PocketAuthorizationResponseType, RedirectUrl)?) -> Void ) {
         
         let requestData = PocketAuthorizationRequest(pocketRedirectUri: url)
-        let authorizeEndpoint = PocketAuthorizeAPI.RequestAuthorization(requestData)
+        let authorizeEndpoint = PocketAuthorizeAPI.requestAuthorization(requestData)
         
         authorizeEndpoint.request() { error, status, headers, data in
             guard let status = status else {
@@ -44,7 +44,7 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
     static func requestAccessToken(data: PocketAuthorizationData, completion: (PocketAccessTokenResponseType?) -> Void ) {
         
         let requestData = PocketAccessTokenRequest(pocketRequestToken: data.requestToken)
-        let accessTokenEndpoint = PocketAuthorizeAPI.RequestAccessToken(requestData)
+        let accessTokenEndpoint = PocketAuthorizeAPI.requestAccessToken(requestData)
         
         accessTokenEndpoint.request() { error, status, headers, data in
             guard let status = status else {
