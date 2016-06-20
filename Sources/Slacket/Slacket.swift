@@ -11,9 +11,7 @@ import Kitura
 import HeliumLogger
 import LoggerAPI
 
-#if os(Linux)
-    import Glibc
-#endif
+import libc
 
 struct ExternalServerConfig: URLType {
 
@@ -28,7 +26,7 @@ struct InternalServerConfig: URLType {
 
 struct Slacket: ServerModuleType {
 
-    let router: Router
+    private let router: Router
 
     init(using router: Router) {
         self.router = router
@@ -36,16 +34,8 @@ struct Slacket: ServerModuleType {
     }
 
     mutating func setupRoutes() {
-        //router.get("/", middleware: StaticFileServer(path: "/Users/jakubtomanik/Documents/SwiftAPI/Slacket_prv/public/"))
-        router.get("/", middleware: StaticFileServer(path: calculatePath()))
+        router.get("/", middleware: StaticFileServer(path: repoDirectory+"public/"))
         router.all("api/*", middleware: BodyParser())
         router.all("api/*", middleware: SlacketHandler())
-    }
-
-    private func calculatePath() -> String {
-        let currentPath = #file
-        let baseDir = currentPath.replaceOccurrences(of: "Sources/Slacket/Slacket.swift", with: "")
-        let publicDir = baseDir+"public/"
-        return publicDir
     }
 }

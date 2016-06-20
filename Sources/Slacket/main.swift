@@ -7,15 +7,23 @@ import KituraSys
 import HeliumLogger
 import LoggerAPI
 
-#if os(Linux)
-    import Glibc
-#endif
+import libc
 
 protocol ServerModuleType {
-    
-    var router: Router { get }
     init(using router: Router)
     mutating func setupRoutes()
+}
+
+var workingDirectory: String {
+    let parent = #file.characters.split(separator: "/").map(String.init).dropLast().joined(separator: "/")
+    let path = "/\(parent)/"
+    return path
+}
+
+var repoDirectory: String {
+    let working = workingDirectory.characters.split(separator: "/").map(String.init).dropLast(2).joined(separator: "/")
+    let path = "/\(working)/"
+    return path
 }
 
 Log.logger = HeliumLogger()
