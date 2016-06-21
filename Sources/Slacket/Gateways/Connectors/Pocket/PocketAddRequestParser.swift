@@ -42,6 +42,10 @@ struct PocketAddRequestParser: ParserEncoderType {
             dictionary["access_token"] = tweetId
         }
         
-        return JSON(dictionary as! AnyObject)
+        #if os(Linux)
+            return JSON(dictionary as Any)
+        #else
+            return JSON(dictionary as AnyObject)
+        #endif
     }
 }

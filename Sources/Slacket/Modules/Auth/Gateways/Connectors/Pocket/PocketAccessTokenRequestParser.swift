@@ -19,6 +19,10 @@ struct PocketAccessTokenRequestParser: ParserEncoderType {
         var dictionary = [String: String]()
         dictionary["consumer_key"] = model.pocketConsumerKey
         dictionary["code"] = model.pocketRequestToken
-        return JSON(dictionary as! AnyObject)
+        #if os(Linux)
+            return JSON(dictionary as Any)
+        #else
+            return JSON(dictionary as AnyObject)
+        #endif
     }
 }
