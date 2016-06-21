@@ -37,7 +37,7 @@ struct PocketApiConnector: PocketConnectorType {
             }
             
             if let data = data where 200...299 ~= status,
-            let pocketAddResponseBody = BodyParser.parse(data, contentType: pocketEndpoint.acceptContentType),
+            let pocketAddResponseBody = ParsedBody.init(data: data, contentType: pocketEndpoint.acceptContentType),
             let pocketAddResponse = PocketAddResponseParser.parse(body: pocketAddResponseBody) where pocketAddResponse.status == 1 {
                 
                 let pocketItem = pocketAddResponse.item
