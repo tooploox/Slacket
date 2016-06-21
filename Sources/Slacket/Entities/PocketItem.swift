@@ -22,8 +22,8 @@ protocol PocketItemType {
     var mimeType: String { get }        // The MIME type returned by the item
     var contentLength: Int { get }      // The content length of the item
     var encoding: String { get }        // The encoding of the item
-    var dateResolved: NSDate { get }    // The date the item was resolved
-    var datePublished: NSDate? { get }  // The date the item was published (if the parser was able to find one)
+    var dateResolved: String { get }    // The date the item was resolved
+    var datePublished: String? { get }  // The date the item was published (if the parser was able to find one)
     var title: String { get }           // The title of the resolved_url
     var excerpt: String? { get }        // The excerpt of the resolved_url
     var wordCount: Int? { get }         // For an article, the number of words
@@ -45,8 +45,8 @@ struct PocketItem: PocketItemType {
     let mimeType: String
     let contentLength: Int
     let encoding: String
-    let dateResolved: NSDate
-    let datePublished: NSDate?
+    let dateResolved: String
+    let datePublished: String?
     let title: String
     let excerpt: String?
     let wordCount: Int?
