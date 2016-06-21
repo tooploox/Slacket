@@ -20,7 +20,7 @@ struct PocketAuthorizationRequestParser: ParserEncoderType {
         dictionary["consumer_key"] = model.pocketConsumerKey
         dictionary["redirect_uri"] = model.pocketRedirectUri
         #if os(Linux)
-            return JSON(dictionary as! Any)
+            return JSON(dictionary as Any)
         #else
             return JSON(dictionary as AnyObject)
         #endif
