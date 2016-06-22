@@ -13,7 +13,7 @@ import SwiftyJSON
 struct PocketItemParser: ParserDecoderType {
     
     typealias Parsable = PocketItemType
-    typealias ParsedType = JSON
+    typealias ParsedType = JsonType
     
     static func decode(raw: ParsedType) -> Parsable? {
         if let itemId = raw["item_id"].string,
