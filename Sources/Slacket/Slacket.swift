@@ -37,5 +37,6 @@ struct Slacket: ServerModuleType {
         router.get("/", middleware: StaticFileServer(path: repoDirectory+"public/"))
         router.all("api/*", middleware: BodyParser())
         router.all("api/*", middleware: SlacketHandler())
+        router.get("/health-check", middleware: HealthCheckMiddleware())
     }
 }
