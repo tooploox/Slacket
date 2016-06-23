@@ -26,7 +26,10 @@ struct SlacketService: SlacketServiceProvider {
             //                           text: "\(request.command) \(request.text)")
             //respond(message)
             
-            let url = request.text.trimWhitespace()
+            var url = request.text.trimWhitespace()
+            if !url.hasPrefix("http") {
+                url = "http://" + url
+            }
             PocketApiConnector.addLink(url: url,
                                        tags: [request.teamDomain, request.channelName],
                                        user: slacketUser) { pocketItem in
