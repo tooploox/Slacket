@@ -1,0 +1,197 @@
+{
+	"id": "54b989bf-8ac5-a559-eef0-25b029c7b95e",
+	"name": "Slacket",
+	"description": "",
+	"order": [
+		"d01f8d01-6f93-ae03-80de-67e91065fca3",
+		"9d858eb3-bd87-9357-b893-a3e3d07a59c5",
+		"948ec69e-d2fc-cd62-0d99-674b72ce1bab"
+	],
+	"folders": [],
+	"timestamp": 1463481574596,
+	"owner": 0,
+	"remoteLink": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "948ec69e-d2fc-cd62-0d99-674b72ce1bab",
+			"headers": "",
+			"url": "http://127.0.0.1:8090/api/v1/auth/authorized/U2147483697",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1463999706690,
+			"name": "Response from Pocket server upon successful authorization. ",
+			"description": "",
+			"collectionId": "54b989bf-8ac5-a559-eef0-25b029c7b95e",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
+			"id": "9d858eb3-bd87-9357-b893-a3e3d07a59c5",
+			"headers": "",
+			"url": "http://127.0.0.1:8090/api/v1/auth/newuser/U2147483697",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "token=SJ0sPVUmpujXy52BIK8NV7nn",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "team_id=T0001",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "team_domain=example",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "channel_id=C2147483705",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "channel_name=test",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "user_id=U2147483697",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "user_name=Steve",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "command=/weather",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "text=94070",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "response_url=https",
+					"value": "//hooks.slack.com/commands/1234/5678",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1463998913057,
+			"name": "Request authorization from Pocket",
+			"description": "Should return redirect to https://getpocket.com/auth/authorize?request_token=\\(requestToken)&redirect_uri=\\(redirectURL)",
+			"collectionId": "54b989bf-8ac5-a559-eef0-25b029c7b95e",
+			"responses": []
+		},
+		{
+			"id": "d01f8d01-6f93-ae03-80de-67e91065fca3",
+			"headers": "Content-Type: application/x-www-form-urlencoded\n",
+			"url": "http://127.0.0.1:8090/api/v1/slack/command",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "token",
+					"value": "SJ0sPVUmpujXy52BIK8NV7nn",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "team_id",
+					"value": "T0001",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "team_domain",
+					"value": "tooploox",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "channel_id",
+					"value": "C2147483705",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "channel_name",
+					"value": "test",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "user_id",
+					"value": "U2147483697",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "user_name",
+					"value": "Steve",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "command",
+					"value": "/slacket",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "text",
+					"value": "http://www.tooploox.com",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "response_url",
+					"value": "https://hooks.slack.com/commands/1234/5678",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1463922394444,
+			"name": "Add link with /slacket http://link.com command",
+			"description": "",
+			"collectionId": "54b989bf-8ac5-a559-eef0-25b029c7b95e",
+			"responses": []
+		}
+	]
+}
