@@ -63,6 +63,7 @@ extension ParsedBody {
     
     init?(data: NSData, contentType contentTypeString: String?) {
         guard let contentTypeString = contentTypeString else {
+            print("Failed: \(#function), line: \(#line)")
             return nil
         }
         
@@ -84,9 +85,11 @@ extension ParsedBody {
             if json != JSON.null {
                 self = .json(json)
             } else {
+                print("Failed: \(#function), line: \(#line)")
                 return nil
             }
         } else {
+            print("Failed: \(#function), line: \(#line)")
             return nil
         }
     }

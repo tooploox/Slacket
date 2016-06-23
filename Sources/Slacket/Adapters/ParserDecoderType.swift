@@ -42,6 +42,7 @@ extension ParserDecoderType where ParsedType == DictionaryType {
     
     static func parse(body: ParsedBody?) -> Parsable? {
         guard let body = body else {
+            print("Failed: \(#function), line: \(#line)")
             return nil
         }
         switch body {
