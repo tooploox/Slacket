@@ -20,11 +20,9 @@ struct SlacketService: SlacketServiceProvider {
     static func process(request: SlackCommandType, respond: ((SlackMessageType) -> ())) {
         
         if let slacketUser = SlacketUserDataStore.sharedInstance.get(keyId: request.userId) where slacketUser.pocketAccessToken != nil {
-            
-            // "echo" response
-            //let message = SlackMessage(responseVisibility: .Ephemeral,
-            //                           text: "\(request.command) \(request.text)")
-            //respond(message)
+            let message = SlackMessage(responseVisibility: .ephemeral,
+                                       text: "\(request.command) \(request.text)")
+            respond(message)
             
             var url = request.text.trimWhitespace()
             if !url.hasPrefix("http") {
@@ -39,9 +37,8 @@ struct SlacketService: SlacketServiceProvider {
                                         
                                         let slackMessage = SlackMessage(responseVisibility: .ephemeral, text: "successfully added link")
                                         respond(slackMessage)
-                                        //SlackApiConnector.send(message: slackMessage, inResponse: request)
+                                        SlackApiConnector.send(message: slackMessage, inResponse: request)
             }
-            
         } else {
             
             let newUser = SlacketUser(slackId: request.userId,
