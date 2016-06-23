@@ -27,7 +27,7 @@ struct SlacketService: SlacketServiceProvider {
             //respond(message)
             
             var url = request.text.trimWhitespace()
-            if !url.contains("http") {
+            if !url.hasPrefix("http") {
                 url = "http://" + url
             }
             PocketApiConnector.addLink(url: url,
