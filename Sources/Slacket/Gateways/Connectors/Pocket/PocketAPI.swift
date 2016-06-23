@@ -9,6 +9,7 @@
 import Foundation
 import Kitura
 import SimpleHttpClient
+import Environment
 
 protocol PocketAppType {
     
@@ -18,7 +19,10 @@ protocol PocketAppType {
 extension PocketAppType {
     
     var pocketConsumerKey: String {
-        return "54643-3989062fcc074d7073bfcc5f"
+        guard let key = Environment().getVar("POCKET_CONSUMER_KEY") else {
+            fatalError("Cannot find POCKET_CONSUMER_KEY environmental variable.")
+        }
+        return key
     }
 }
 

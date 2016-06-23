@@ -10,6 +10,7 @@ import Foundation
 import Kitura
 import KituraNet
 import SimpleHttpClient
+import Environment
 
 protocol SlackAppType {
     
@@ -19,7 +20,10 @@ protocol SlackAppType {
 extension SlackAppType {
     
     var slackToken: String {
-        return "SJ0sPVUmpujXy52BIK8NV7nn"
+        guard let token = Environment().getVar("SLACK_TOKEN") else {
+            fatalError("Cannot find SLACK_TOKEN environmental variable.")
+        }
+        return token
     }
 }
 
