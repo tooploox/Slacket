@@ -10,7 +10,6 @@ import Foundation
 import Kitura
 import SimpleHttpClient
 import Environment
-import LoggerAPI
 
 protocol PocketAppType {
     
@@ -21,8 +20,7 @@ extension PocketAppType {
     
     var pocketConsumerKey: String {
         guard let key = Environment().getVar("POCKET_CONSUMER_KEY") else {
-            Log.error("Cannot find POCKET_CONSUMER_KEY environmental variable.")
-            return ""
+            fatalError("Cannot find POCKET_CONSUMER_KEY environmental variable.")
         }
         return key
     }

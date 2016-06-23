@@ -11,7 +11,6 @@ import Kitura
 import KituraNet
 import SimpleHttpClient
 import Environment
-import LoggerAPI
 
 protocol SlackAppType {
     
@@ -22,8 +21,7 @@ extension SlackAppType {
     
     var slackToken: String {
         guard let token = Environment().getVar("SLACK_TOKEN") else {
-            Log.error("Cannot find SLACK_TOKEN environmental variable.")
-            return ""
+            fatalError("Cannot find SLACK_TOKEN environmental variable.")
         }
         return token
     }
