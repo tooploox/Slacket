@@ -34,6 +34,7 @@ struct Slacket: ServerModuleType {
     }
 
     mutating func setupRoutes() {
+        router.get("/health-check", middleware: HealthCheckMiddleware())
         router.get("/", middleware: StaticFileServer(path: repoDirectory+"public/"))
         router.all("api/*", middleware: BodyParser())
         router.all("api/*", middleware: SlacketHandler())
