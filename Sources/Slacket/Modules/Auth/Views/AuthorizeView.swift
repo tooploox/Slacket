@@ -8,7 +8,8 @@
 
 import Foundation
 import Kitura
-import SwiftyJSON
+import HeliumLogger
+import LoggerAPI
 
 protocol AuthorizeViewResponder {
     
@@ -20,6 +21,23 @@ struct AuthorizeView: ParsedBodyResponder {
     let response: RouterResponse
     
     func show(message: String) {
-        self.show(body: ParsedBody.text(message))
+        //self.show(body: ParsedBody.text(message))
+        let filename = "auth.html"
+        let publicDirectory = repoDirectory+"public/"
+        let filePath = publicDirectory+filename
+        let fileManager = NSFileManager()
+        var isDirectory = ObjCBool(false)
+
+        do {
+            if fileManager.fileExists(atPath: filePath, isDirectory: &isDirectory) {
+                //let contentType = ContentType.sharedInstance.getContentType(forFileName: filePath)
+                try response.send(fileName: filePath)
+            } else {
+                try response.send(status: .internalServerError)
+            }
+        }
+        catch {
+            Log.error("Failed to send response \(error)")
+        }
     }
 }
