@@ -21,6 +21,7 @@ struct PocketApiConnector: PocketConnectorType {
     
     static func addLink(url: String, tags: [String]?, user: SlacketUserType, completion: (PocketItemType?) -> Void) {
         guard let pocketAccessToken = user.pocketAccessToken else {
+            print("Failed: \(#function), line: \(#line)")
             completion(nil)
             return
         }
@@ -33,6 +34,7 @@ struct PocketApiConnector: PocketConnectorType {
         let pocketEndpoint = PocketAPI.add(pocketAddRequest)
         pocketEndpoint.request() { error, status, headers, data in
             guard let status = status else {
+                print("Failed: \(#function), line: \(#line)")
                 fatalError()
             }
             
@@ -42,9 +44,11 @@ struct PocketApiConnector: PocketConnectorType {
                     where pocketAddResponse.status == 1 {
                     completion(pocketAddResponse.item)
                 } else {
+                    print("Failed: \(#function), line: \(#line)")
                     completion(nil)
                 }
             } else {
+                print("Failed: \(#function), line: \(#line)")
                 completion(nil)
             }
         }
