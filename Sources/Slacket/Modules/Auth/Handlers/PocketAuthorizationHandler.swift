@@ -71,6 +71,9 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
             next()
             return
         }
+
+        let errorView = ErrorView(response: response)
+
         let parsedBody = request.queryParameters
         
         switch action {
@@ -80,7 +83,8 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
             if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil {
                 PocketAuthorizationRequestService.process(user: slacketUser) { redirectUrl in
                     guard let redirectUrl = redirectUrl else {
-                        fatalError()
+                        errorView.error(message: nil)
+                        return
                     }
                     view.redirect(to: redirectUrl)
                 }
@@ -93,7 +97,8 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
                 let user = slacketUser as? SlacketUser{
                 PocketAccessTokenRequestService.process(user: slacketUser) { accessTokenResponse in
                     guard let accessTokenResponse = accessTokenResponse else {
-                        fatalError()
+                        errorView.error(message: nil)
+                        return
                     }
                     let fullSlacketUser = SlacketUser(slackId: user.slackId,
                                                       slackTeamId:  user.slackTeamId,
@@ -101,6 +106,7 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
                                                       pocketUsername: accessTokenResponse.pocketUsername)
                     SlacketUserDataStore.sharedInstance.set(data: fullSlacketUser)
                     view.show(message: "Authorized")
+                    return
                 }
             }
         }
