@@ -78,28 +78,29 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
         
         switch action {
         case .authorizationRequest:
-            let view = RedirectView(response: response)
+            let redirectView = RedirectView(response: response)
+            let messageView = AuthorizeView(response: response)
             
             if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil {
                 PocketAuthorizationRequestService.process(user: slacketUser) { redirectUrl in
                     guard let redirectUrl = redirectUrl else {
                         Log.error("Did not generated redirect url")
-                        view.show(message: .pocketError)
+                        messageView.show(message: .pocketError)
                         return
                     }
-                    view.redirect(to: redirectUrl)
+                    redirectView.redirect(to: redirectUrl)
                 }
             }
             
         case .accessTokenRequest:
-            let view = AuthorizeView(response: response)
+            let messageView = AuthorizeView(response: response)
             
             if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil,
                 let user = slacketUser as? SlacketUser{
                 PocketAccessTokenRequestService.process(user: slacketUser) { accessTokenResponse in
                     guard let accessTokenResponse = accessTokenResponse else {
                         Log.error("Did not get access token from Pocket API")
-                        view.show(message: .authorizationError)
+                        messageView.show(message: .authorizationError)
                         return
                     }
                     let fullSlacketUser = SlacketUser(slackId: user.slackId,
@@ -107,7 +108,7 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
                                                       pocketAccessToken: accessTokenResponse.pocketAccessToken,
                                                       pocketUsername: accessTokenResponse.pocketUsername)
                     SlacketUserDataStore.sharedInstance.set(data: fullSlacketUser)
-                    view.show(message: .authorized)
+                    messageView.show(message: .authorized)
                     return
                 }
             }
