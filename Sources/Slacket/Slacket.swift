@@ -13,7 +13,9 @@ import LoggerAPI
 
 import libc
 
-struct ServerConfig: URLType {
+class ServerConfig: URLType {
+    
+    static let sharedInstance = ServerConfig()
     
     private let onLocalHost: Bool
     
@@ -25,7 +27,7 @@ struct ServerConfig: URLType {
         return onLocalHost ? 8090 : nil
     }
     
-    init() {
+    private init() {
         self.onLocalHost = LaunchArgumentsProcessor.onLocalHost
     }
 }
