@@ -73,11 +73,15 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
             next()
             return
         }
+
+        let errorView = ErrorView(response: response)
+
         let parsedBody = request.queryParameters
         
         switch action {
         case .authorizationRequest:
-            let view = RedirectView(response: response)
+            let redirectView = RedirectView(response: response)
+            let messageView = AuthorizeView(response: response)
             
             if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil {
                 PocketAuthorizationRequestService.process(user: slacketUser) { redirectUrl in
@@ -85,14 +89,14 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
                         Log.error("redirectUrl is nil")
                         fatalError()
                     }
-                    view.redirect(to: redirectUrl)
+                    redirectView.redirect(to: redirectUrl)
                 }
             } else {
                 Log.debug("slacketUser or slacketUser.pocketAccessToken is nil")
             }
             
         case .accessTokenRequest:
-            let view = AuthorizeView(response: response)
+            let messageView = AuthorizeView(response: response)
             
             if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil,
                 let user = slacketUser as? SlacketUser{
@@ -106,7 +110,8 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
                                                       pocketAccessToken: accessTokenResponse.pocketAccessToken,
                                                       pocketUsername: accessTokenResponse.pocketUsername)
                     let _ = SlacketUserDataStore.sharedInstance.set(data: fullSlacketUser)
-                    view.show(message: "Authorized")
+                    messageView.show(message: .authorized)
+                    return
                 }
             }
         }
