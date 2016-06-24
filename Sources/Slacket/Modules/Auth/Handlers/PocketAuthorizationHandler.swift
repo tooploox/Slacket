@@ -53,7 +53,7 @@ enum PocketAuthorizationAction: HandlerAction {
     }
     
     func redirectUrl(user: SlacketUserType) -> String {
-        return "\(ServerConfig.sharedInstance.baseURL+self.path)?user=\(user.slackId)&team=\(user.slackTeamId)"
+        return "\(ExternalServerConfig().baseURL+self.path)?user=\(user.slackId)&team=\(user.slackTeamId)"
     }
 }
 
