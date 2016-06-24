@@ -19,6 +19,7 @@ enum PocketAuthorizationAction: HandlerAction {
     
     static func from(route: String?) -> PocketAuthorizationAction? {
         guard let route = route else {
+            Log.error("route is nil")
             return nil
         }
         switch route {
@@ -27,6 +28,7 @@ enum PocketAuthorizationAction: HandlerAction {
         case let r where r.startsWith(prefix: PocketAuthorizationAction.accessTokenRequest.route):
             return PocketAuthorizationAction.accessTokenRequest
         default:
+            Log.debug("Unsupported route case")
             return nil
         }
     }
@@ -84,12 +86,13 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
             if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil {
                 PocketAuthorizationRequestService.process(user: slacketUser) { redirectUrl in
                     guard let redirectUrl = redirectUrl else {
-                        Log.error("Did not generated redirect url")
-                        messageView.show(message: .pocketError)
-                        return
+                        Log.error("redirectUrl is nil")
+                        fatalError()
                     }
                     redirectView.redirect(to: redirectUrl)
                 }
+            } else {
+                Log.debug("slacketUser or slacketUser.pocketAccessToken is nil")
             }
             
         case .accessTokenRequest:
@@ -99,15 +102,14 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
                 let user = slacketUser as? SlacketUser{
                 PocketAccessTokenRequestService.process(user: slacketUser) { accessTokenResponse in
                     guard let accessTokenResponse = accessTokenResponse else {
-                        Log.error("Did not get access token from Pocket API")
-                        messageView.show(message: .authorizationError)
-                        return
+                        Log.error("accessToken is nil")
+                        fatalError()
                     }
                     let fullSlacketUser = SlacketUser(slackId: user.slackId,
                                                       slackTeamId:  user.slackTeamId,
                                                       pocketAccessToken: accessTokenResponse.pocketAccessToken,
                                                       pocketUsername: accessTokenResponse.pocketUsername)
-                    SlacketUserDataStore.sharedInstance.set(data: fullSlacketUser)
+                    let _ = SlacketUserDataStore.sharedInstance.set(data: fullSlacketUser)
                     messageView.show(message: .authorized)
                     return
                 }

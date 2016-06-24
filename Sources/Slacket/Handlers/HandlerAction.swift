@@ -8,6 +8,7 @@
 
 import Foundation
 import Kitura
+import LoggerAPI
 
 protocol HandlerAction {
     
@@ -75,7 +76,8 @@ extension HandlerAction {
     init?(request: RouterRequest) {
         guard let action = Self.from(route: request.parsedURL.path) where
             request.method == action.method && action.hasAllRequiredParameters(request: request) else {
-                    return nil
+                Log.debug("action is nil or request.method != action and action doesn't have all required parameters")
+                return nil
         }
         self = action
     }

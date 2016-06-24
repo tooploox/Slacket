@@ -8,6 +8,7 @@
 
 import Foundation
 import Kitura
+import LoggerAPI
 
 struct SlackCommandParser: ParserDecoderType {
     
@@ -36,6 +37,7 @@ struct SlackCommandParser: ParserDecoderType {
                                 text: text,
                                 responseUrl: responseUrl)
         } else {
+            Log.debug("Failed to decode SlackCommandType \(raw)")
             return nil
         }
     }

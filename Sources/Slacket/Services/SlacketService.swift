@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LoggerAPI
 
 protocol SlacketServiceProvider {
     
@@ -20,11 +21,9 @@ struct SlacketService: SlacketServiceProvider {
     static func process(request: SlackCommandType, respond: ((SlackMessageType) -> ())) {
         
         if let slacketUser = SlacketUserDataStore.sharedInstance.get(keyId: request.userId) where slacketUser.pocketAccessToken != nil {
-            
-            // "echo" response
-            //let message = SlackMessage(responseVisibility: .Ephemeral,
-            //                           text: "\(request.command) \(request.text)")
-            //respond(message)
+            let message = SlackMessage(responseVisibility: .ephemeral,
+                                       text: "\(request.command) \(request.text)")
+            respond(message)
             
             var url = request.text.trimWhitespace()
             if !url.hasPrefix("http") {
@@ -34,21 +33,20 @@ struct SlacketService: SlacketServiceProvider {
                                        tags: [request.teamDomain, request.channelName],
                                        user: slacketUser) { pocketItem in
                                         guard pocketItem != nil else {
+                                            Log.error("pocketItem is nil")
                                             fatalError()
                                         }
                                         
                                         let slackMessage = SlackMessage(responseVisibility: .ephemeral, text: "successfully added link")
                                         respond(slackMessage)
-                                        //SlackApiConnector.send(message: slackMessage, inResponse: request)
+                                        SlackApiConnector.send(message: slackMessage, inResponse: request)
             }
-            
         } else {
-            
             let newUser = SlacketUser(slackId: request.userId,
                                       slackTeamId: request.teamId,
                                       pocketAccessToken: nil,
                                       pocketUsername: nil)
-            SlacketUserDataStore.sharedInstance.set(data: newUser)
+            let _ = SlacketUserDataStore.sharedInstance.set(data: newUser)
             let message = SlackMessage(responseVisibility: .ephemeral,
                                        text: "Please go to \(PocketAuthorizationAction.authorizationRequest.redirectUrl(user: newUser))")
             respond(message)

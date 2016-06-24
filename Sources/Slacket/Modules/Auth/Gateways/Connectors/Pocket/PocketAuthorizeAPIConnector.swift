@@ -27,8 +27,11 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
         
         authorizeEndpoint.request() { error, status, headers, data in
             guard let status = status else {
+                Log.error("status is nil")
                 fatalError()
             }
+            Log.debug("pocketEndpoint.request() returned status \(status)")
+            Log.debug("pocketEndpoint.request() returned headers\n\(headers)")
             
             if let data = data where 200...299 ~= status,
                 let parsedBody = ParsedBody.init(data: data, contentType: authorizeEndpoint.acceptContentType),
@@ -36,6 +39,7 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
                 let redirectUrl = authorizeEndpoint.redirectUrl(for: authorizationResponse) {
                 completion((authorizationResponse, redirectUrl))
             } else {
+                Log.debug("parse data, parsedBody or authorizationResponse is nil")
                 completion(nil)
             }
         }
@@ -48,8 +52,11 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
         
         accessTokenEndpoint.request() { error, status, headers, data in
             guard let status = status else {
+                Log.error("status is nil")
                 fatalError()
             }
+            Log.debug("pocketEndpoint.request() returned status \(status)")
+            Log.debug("pocketEndpoint.request() returned headers\n\(headers)")
             
             if let data = data where 200...299 ~= status,
                 let parsedBody = ParsedBody.init(data: data, contentType: accessTokenEndpoint.acceptContentType),
@@ -57,6 +64,7 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
                 let accessTokenResponse = accessTokenResponse as PocketAccessTokenResponseType
                 completion(accessTokenResponse)
             } else {
+                Log.debug("parse data, parsedBody or accessTokenResponse is nil")
                 completion(nil)
             }
         }

@@ -9,6 +9,7 @@
 import Foundation
 import Kitura
 import SwiftyJSON
+import LoggerAPI
 
 protocol SlacketViewResponder {
     
@@ -22,6 +23,8 @@ struct SlacketView: SlacketViewResponder, ParsedBodyResponder {
     func show(message: SlackMessageType) {
         if let parsed = SlackMessageParser.parse(model: message) {
             self.show(body: parsed)
+        } else {
+            Log.debug("parsed is nil")
         }
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LoggerAPI
 
 struct SlacketUserParser: ParserDecoderType {
     
@@ -21,6 +22,7 @@ struct SlacketUserParser: ParserDecoderType {
                                pocketAccessToken: nil,
                                pocketUsername: nil)
         } else {
+            Log.debug("Failed to decode SlacketUser \(raw)")
             return nil
         }
     }

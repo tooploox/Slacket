@@ -50,7 +50,7 @@ struct AuthorizeView: ParsedBodyResponder {
                 try response.send(fileName: filePath)
             } else {
                 Log.error("Could not find file: \(filePath)")
-                try response.send(status: .internalServerError)
+                try _ = response.send(status: .internalServerError)
             }
         }
         catch {

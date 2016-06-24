@@ -19,11 +19,11 @@ protocol SlackConnectorType {
 
 struct SlackApiConnector: SlackConnectorType {
     
-    static func send(message: SlackMessageType, inResponse command: SlackCommandType, completion: ((Bool) -> Void)? = nil ) {
-        
+    static func send(message: SlackMessageType, inResponse command: SlackCommandType, completion: ((Bool) -> Void)? = nil) {
         let slackEndpoint = SlackAPI.respond(command: command, message: message)
         slackEndpoint.request { error, status, headers, data in
             guard let status = status else {
+                Log.error("status is nil")
                 fatalError()
             }
             

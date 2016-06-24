@@ -9,6 +9,7 @@
 import Foundation
 import Kitura
 import SwiftyJSON
+import LoggerAPI
 
 extension ParsedBody {
     
@@ -63,7 +64,7 @@ extension ParsedBody {
     
     init?(data: NSData, contentType contentTypeString: String?) {
         guard let contentTypeString = contentTypeString else {
-            print("Failed: \(#function), line: \(#line)")
+            Log.debug("contentTypeString is nil")
             return nil
         }
         
@@ -85,11 +86,11 @@ extension ParsedBody {
             if json != JSON.null {
                 self = .json(json)
             } else {
-                print("Failed: \(#function), line: \(#line)")
+                Log.debug("JSON is null")
                 return nil
             }
         } else {
-            print("Failed: \(#function), line: \(#line)")
+            Log.debug("Failed to parse contentType")
             return nil
         }
     }
@@ -110,6 +111,7 @@ extension ParsedBody {
     
     private func encode(multipart parts: [Part]) -> NSData? {
         // TODO: - Implement
+        Log.debug("Entered unimplemented function")
         return nil
     }
 }

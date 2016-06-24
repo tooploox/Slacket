@@ -82,7 +82,6 @@ struct SlacketHandler: Handler, RouterMiddleware, ErrorType {
         case .addCommand:
             let view = SlacketView(response: response)
             if let slackCommand: SlackCommandType = SlackCommandParser.parse(body: request.body) {
-                
                 SlacketService.process(request: slackCommand) { slackMessage in
                     view.show(message: slackMessage)
                 }

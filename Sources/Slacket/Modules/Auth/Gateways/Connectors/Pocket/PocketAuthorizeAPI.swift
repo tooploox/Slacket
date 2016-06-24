@@ -9,6 +9,7 @@
 import Foundation
 import Kitura
 import SimpleHttpClient
+import LoggerAPI
 
 enum PocketAuthorizeAPI: ConnectorEndpoint {
     
@@ -45,6 +46,7 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     
     var acceptHeaders: [String: String]? {
         guard let contentType = self.acceptContentType else {
+            Log.debug("contentType is nil")
             return nil
         }
         return ["X-Accept": "\(contentType); charset=UTF8"]
@@ -64,6 +66,7 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
             if let redirectUrl = req.pocketRedirectUri.stringByAddingPercentEncoding() {
                 return "https://getpocket.com/auth/authorize?request_token=\(response.pocketRequestToken)&redirect_uri=\(redirectUrl)"
             } else {
+                Log.debug("redirectUrl is nil")
                 return nil
             }
         case .requestAccessToken:

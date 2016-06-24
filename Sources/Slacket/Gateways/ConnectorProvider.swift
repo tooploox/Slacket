@@ -9,7 +9,7 @@
 import Foundation
 import Kitura
 import SimpleHttpClient
-
+import LoggerAPI
 
 struct ConnectorProvider<Endpoint: ConnectorEndpoint> {
     
@@ -20,7 +20,8 @@ struct ConnectorProvider<Endpoint: ConnectorEndpoint> {
         case .post:
             HttpClient.post(resource: endpoint.resource, headers: endpoint.headers, data: endpoint.data, completionHandler: handler)
         default:
-            fatalError("API Client method not supported")
+            Log.error("Unsupported endpoint.method case")
+            fatalError()
         }
     }
 }

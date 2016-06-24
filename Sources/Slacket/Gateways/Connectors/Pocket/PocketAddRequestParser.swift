@@ -9,12 +9,14 @@
 import Foundation
 import Kitura
 import SwiftyJSON
+import LoggerAPI
 
 extension PocketAddRequestType {
     
     var decodedURL: String {        
         guard let url = url.withoutPercentEncoding() else {
-            fatalError("URL decodaing failed")
+            Log.error("url is nil")
+            fatalError()
         }
         return url
     }

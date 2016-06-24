@@ -9,6 +9,7 @@
 import Foundation
 import Kitura
 import SwiftyJSON
+import LoggerAPI
 
 struct PocketAuthorizationResponseParser: ParserDecoderType {
     
@@ -19,6 +20,7 @@ struct PocketAuthorizationResponseParser: ParserDecoderType {
         if let requestToken = raw["code"].string {
             return PocketAuthorizationResponse(pocketRequestToken: requestToken)
         } else {
+            Log.debug("Failed to decode PocketAuthorizationResponse")
             return nil
         }
     }
