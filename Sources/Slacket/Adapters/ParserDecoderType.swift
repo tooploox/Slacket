@@ -9,6 +9,7 @@
 import Foundation
 import Kitura
 import SwiftyJSON
+import LoggerAPI
 
 protocol ParserDecoderType: ParserType {
 
@@ -20,7 +21,7 @@ extension ParserDecoderType where ParsedType == JsonType {
     
     static func parse(body: ParsedBody?) -> Parsable? {
         guard let body = body else {
-            print("Failed: \(#function), line: \(#line)")
+            Log.error("body is nil")
             return nil
         }
         switch body {
@@ -42,7 +43,7 @@ extension ParserDecoderType where ParsedType == DictionaryType {
     
     static func parse(body: ParsedBody?) -> Parsable? {
         guard let body = body else {
-            print("Failed: \(#function), line: \(#line)")
+            Log.error("body is nil")
             return nil
         }
         switch body {

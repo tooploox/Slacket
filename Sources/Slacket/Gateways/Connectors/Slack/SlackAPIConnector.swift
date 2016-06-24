@@ -23,6 +23,7 @@ struct SlackApiConnector: SlackConnectorType {
         let slackEndpoint = SlackAPI.respond(command: command, message: message)
         slackEndpoint.request { error, status, headers, data in
             guard let status = status else {
+                Log.error("status is nil")
                 fatalError()
             }
             

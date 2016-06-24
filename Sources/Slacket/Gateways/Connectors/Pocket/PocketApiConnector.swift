@@ -21,9 +21,8 @@ struct PocketApiConnector: PocketConnectorType {
     
     static func addLink(url: String, tags: [String]?, user: SlacketUserType, completion: (PocketItemType?) -> Void) {
         guard let pocketAccessToken = user.pocketAccessToken else {
-            print("Failed: \(#function), line: \(#line)")
-            completion(nil)
-            return
+            Log.error("pocketAccessToken is nil")
+            return completion(nil)
         }
         
         let pocketAddRequest = PocketAddRequest(url: url,
@@ -34,9 +33,11 @@ struct PocketApiConnector: PocketConnectorType {
         let pocketEndpoint = PocketAPI.add(pocketAddRequest)
         pocketEndpoint.request() { error, status, headers, data in
             guard let status = status else {
-                print("Failed: \(#function), line: \(#line)")
+                Log.error("status is nil")
                 fatalError()
             }
+            Log.debug("pocketEndpoint.request() returned status \(status)")
+            Log.debug("pocketEndpoint.request() returned headers\n\(headers)")
             
             if let data = data where 200...299 ~= status,
                 let pocketAddResponseBody = ParsedBody.init(data: data, contentType: pocketEndpoint.acceptContentType) {
@@ -44,11 +45,11 @@ struct PocketApiConnector: PocketConnectorType {
                     where pocketAddResponse.status == 1 {
                     completion(pocketAddResponse.item)
                 } else {
-                    print("Failed: \(#function), line: \(#line)")
+                    Log.error("Failed to parse pocketAddResponse or pocketAddResponse.status != 1")
                     completion(nil)
                 }
             } else {
-                print("Failed: \(#function), line: \(#line)")
+                Log.error("Failed to parse data or pocketAddResponseBody")
                 completion(nil)
             }
         }

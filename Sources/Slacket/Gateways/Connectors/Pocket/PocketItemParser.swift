@@ -9,6 +9,7 @@
 import Foundation
 import Kitura
 import SwiftyJSON
+import LoggerAPI
 
 struct PocketItemParser: ParserDecoderType {
     
@@ -37,7 +38,7 @@ struct PocketItemParser: ParserDecoderType {
             let isArticle = Int(raw["is_article"].string ?? "") {
             return PocketItem(itemId: itemId, normalUrl: normalUrl, resolvedId: resolvedId, resolvedUrl: resolvedUrl, domainId: domainId, originDomainId: originDomainId, responseCode: responseCode, mimeType: mimeType, contentLength: contentLength, encoding: encoding, dateResolved: dateResolved, datePublished: datePublished, title: title, excerpt: excerpt, wordCount: wordCount, hasImage: hasImage, hasVideo: hasVideo, isIndex: isIndex, isArticle: isArticle)
         } else {
-            print("Failed: \(#function), line: \(#line)")
+            Log.error("Failed to decode PocketItemParser")
             return nil
         }
     }
