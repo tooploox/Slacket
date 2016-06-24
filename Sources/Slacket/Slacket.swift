@@ -13,15 +13,21 @@ import LoggerAPI
 
 import libc
 
-struct ExternalServerConfig: URLType {
-
-    let host: String = "slacket.link"
-}
-
-struct InternalServerConfig: URLType {
-
-    let host: String = "localhost"
-    let port: Int? = 8090
+struct ServerConfig: URLType {
+    
+    private let onLocalHost: Bool
+    
+    var host: String {
+        return onLocalHost ? "localhost" : "slacket.link"
+    }
+    
+    var port: Int? {
+        return onLocalHost ? 8090 : nil
+    }
+    
+    init() {
+        self.onLocalHost = LaunchArgumentsProcessor.onLocalHost
+    }
 }
 
 struct Slacket: ServerModuleType {
