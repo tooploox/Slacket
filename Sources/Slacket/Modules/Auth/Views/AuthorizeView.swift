@@ -11,18 +11,33 @@ import Kitura
 import HeliumLogger
 import LoggerAPI
 
+enum AuthorizeMessage {
+    case authorized
+    case authorizationError
+    case pocketError
+
+    var filename: String {
+        switch self {
+        case .authorized: return "auth.html"
+        case .authorizationError: return "autherror.html"
+        case .pocketError: return "pocketerror.html"
+        }
+    }
+
+}
+
 protocol AuthorizeViewResponder {
-    
-    func show(message: String)
+
+    func show(message: AuthorizeMessage)
 }
 
 struct AuthorizeView: ParsedBodyResponder {
-    
+
     let response: RouterResponse
-    
-    func show(message: String) {
+
+    func show(message: AuthorizeMessage) {
         //self.show(body: ParsedBody.text(message))
-        let filename = "auth.html"
+        let filename = message.filename
         let publicDirectory = repoDirectory+"public/"
         let filePath = publicDirectory+filename
         let fileManager = NSFileManager()
@@ -31,8 +46,10 @@ struct AuthorizeView: ParsedBodyResponder {
         do {
             if fileManager.fileExists(atPath: filePath, isDirectory: &isDirectory) {
                 //let contentType = ContentType.sharedInstance.getContentType(forFileName: filePath)
+                Log.error("responding with file: \(filePath)")
                 try response.send(fileName: filePath)
             } else {
+                Log.error("Could not find file: \(filePath)")
                 try response.send(status: .internalServerError)
             }
         }
