@@ -26,6 +26,7 @@ struct RedirectView: RedirectResponder {
     
     func redirect(to url: String) {
         do {
+            Log.debug("redirecting to: \(url)")
             try response.redirect(url)
         }
         catch {

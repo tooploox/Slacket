@@ -46,7 +46,7 @@ struct AuthorizeView: ParsedBodyResponder {
         do {
             if fileManager.fileExists(atPath: filePath, isDirectory: &isDirectory) {
                 //let contentType = ContentType.sharedInstance.getContentType(forFileName: filePath)
-                Log.error("responding with file: \(filePath)")
+                Log.debug("responding with file: \(filePath)")
                 try response.send(fileName: filePath)
             } else {
                 Log.error("Could not find file: \(filePath)")
