@@ -34,6 +34,7 @@ extension ParserDecoderType where ParsedType == JsonType {
                 return self.decode(raw: JSON(dict as AnyObject))
             #endif
         default:
+            Log.debug("Unsupported body case")
             return nil
         }
     }
@@ -50,6 +51,7 @@ extension ParserDecoderType where ParsedType == DictionaryType {
         case .urlEncoded(let dict):
             return self.decode(raw: dict)
         default:
+            Log.debug("Unsupported body case")
             return nil
         }
     }
@@ -65,6 +67,7 @@ extension ParserDecoderType where ParsedType == TextType {
         case .text(let text):
             return self.decode(raw: text)
         default:
+            Log.debug("Unsupported body case")
             return nil
         }
     }

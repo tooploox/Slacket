@@ -45,11 +45,11 @@ struct PocketApiConnector: PocketConnectorType {
                     where pocketAddResponse.status == 1 {
                     completion(pocketAddResponse.item)
                 } else {
-                    Log.error("Failed to parse pocketAddResponse or pocketAddResponse.status != 1")
+                    Log.debug("pocketAddResponse is nil or pocketAddResponse.status != 1")
                     completion(nil)
                 }
             } else {
-                Log.error("Failed to parse data or pocketAddResponseBody")
+                Log.debug("data or pocketAddResponseBody is nil")
                 completion(nil)
             }
         }

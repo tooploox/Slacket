@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LoggerAPI
 
 protocol SlacketServiceProvider {
     
@@ -32,6 +33,7 @@ struct SlacketService: SlacketServiceProvider {
                                        tags: [request.teamDomain, request.channelName],
                                        user: slacketUser) { pocketItem in
                                         guard pocketItem != nil else {
+                                            Log.error("pocketItem is nil")
                                             fatalError()
                                         }
                                         
@@ -40,12 +42,11 @@ struct SlacketService: SlacketServiceProvider {
                                         SlackApiConnector.send(message: slackMessage, inResponse: request)
             }
         } else {
-            
             let newUser = SlacketUser(slackId: request.userId,
                                       slackTeamId: request.teamId,
                                       pocketAccessToken: nil,
                                       pocketUsername: nil)
-            SlacketUserDataStore.sharedInstance.set(data: newUser)
+            let _ = SlacketUserDataStore.sharedInstance.set(data: newUser)
             let message = SlackMessage(responseVisibility: .ephemeral,
                                        text: "Please go to \(PocketAuthorizationAction.authorizationRequest.redirectUrl(user: newUser))")
             respond(message)

@@ -64,7 +64,7 @@ extension ParsedBody {
     
     init?(data: NSData, contentType contentTypeString: String?) {
         guard let contentTypeString = contentTypeString else {
-            Log.error("contentTypeString is nil")
+            Log.debug("contentTypeString is nil")
             return nil
         }
         
@@ -86,11 +86,11 @@ extension ParsedBody {
             if json != JSON.null {
                 self = .json(json)
             } else {
-                Log.error("JSON is null")
+                Log.debug("JSON is null")
                 return nil
             }
         } else {
-            Log.error("Failed to parse contentType")
+            Log.debug("Failed to parse contentType")
             return nil
         }
     }
@@ -111,6 +111,7 @@ extension ParsedBody {
     
     private func encode(multipart parts: [Part]) -> NSData? {
         // TODO: - Implement
+        Log.debug("Entered unimplemented function")
         return nil
     }
 }

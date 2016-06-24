@@ -9,6 +9,7 @@
 import Foundation
 import Kitura
 import SwiftyJSON
+import LoggerAPI
 
 struct PocketAddResponseParser: ParserDecoderType {
     
@@ -21,6 +22,7 @@ struct PocketAddResponseParser: ParserDecoderType {
             let status = raw["status"].int {
             return PocketAddResponse(item: item, status: status)
         } else {
+            Log.debug("Failed to decode PocketAddResponse")
             return nil
         }
     }

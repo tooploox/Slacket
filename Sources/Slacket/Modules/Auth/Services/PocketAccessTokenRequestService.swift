@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LoggerAPI
 
 protocol PocketAccessTokenRequestServiceProvider {
     
@@ -19,6 +20,7 @@ struct PocketAccessTokenRequestService: PocketAccessTokenRequestServiceProvider 
     
     static func process(user: SlacketUserType, respond: (PocketAccessTokenResponseType?) -> Void) {
         guard let user = user as? SlacketUser else {
+            Log.debug("user is nil")
             respond(nil)
             return
         }
@@ -27,6 +29,8 @@ struct PocketAccessTokenRequestService: PocketAccessTokenRequestServiceProvider 
             PocketAuthorizeAPIConnector.requestAccessToken(data: authData) { accessTokenResponse in
                 respond(accessTokenResponse)
             }
+        } else {
+            Log.debug("authData is nil")
         }
     }
 }

@@ -9,6 +9,7 @@
 import Foundation
 import Kitura
 import SwiftyJSON
+import LoggerAPI
 
 struct PocketAccessTokenResponseParser: ParserDecoderType {
     
@@ -20,6 +21,7 @@ struct PocketAccessTokenResponseParser: ParserDecoderType {
             let username = raw["username"].string {
             return PocketAccessTokenResponse(pocketAccessToken: accessToken, pocketUsername: username)
         } else {
+            Log.debug("Failed to decode PocketAccesTokenResponse")
             return nil
         }
     }
