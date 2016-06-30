@@ -13,8 +13,19 @@ import HealthCheck
 import libc
 
 struct ExternalServerConfig: URLType {
-
-    let host: String = "slacket.link"
+    
+    let host: String
+    let port: Int?
+    
+    init() {
+        if LaunchArgumentsProcessor.onLocalHost {
+            self.host = "localhost"
+            self.port = 8090
+        } else {
+            self.host = "slacket.link"
+            self.port = nil
+        }
+    }
 }
 
 struct InternalServerConfig: URLType {
