@@ -42,8 +42,8 @@ enum SlackAPI: ConnectorEndpoint {
     var path: String {
         switch self {
         case .respond(let command, _):
-            let responseUrl = command.responseUrl
-            let path = responseUrl.replaceOccurrences(of: self.baseURL, with: "")
+            let responseUrl = command.responseUrl.withoutPercentEncoding() ?? ""
+            let path = responseUrl.replaceOccurrences(of: "\(self.scheme.rawValue)://\(self.baseURL)", with: "")
             return path
         }
     }
