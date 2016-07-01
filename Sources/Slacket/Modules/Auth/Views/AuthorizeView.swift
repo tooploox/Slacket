@@ -11,6 +11,9 @@ import Kitura
 import HeliumLogger
 import LoggerAPI
 
+import Mustache
+import File
+
 enum AuthorizeMessage {
     case authorized
     case authorizationError
@@ -22,6 +25,10 @@ enum AuthorizeMessage {
         case .authorizationError: return "autherror.html"
         case .pocketError: return "pocketerror.html"
         }
+    }
+
+    var context: [String: String] {
+        return [String: String]()
     }
 
 }
@@ -36,25 +43,25 @@ struct AuthorizeView: ParsedBodyResponder {
     let response: RouterResponse
 
     func show(message: AuthorizeMessage) {
-        //self.show(body: ParsedBody.text(message))
+        //
         let filename = message.filename
         let publicDirectory = repoDirectory+"public/"
         let filePath = publicDirectory+filename
-        let fileManager = NSFileManager()
-        var isDirectory = ObjCBool(false)
 
-        do {
-            if fileManager.fileExists(atPath: filePath, isDirectory: &isDirectory) {
-                //let contentType = ContentType.sharedInstance.getContentType(forFileName: filePath)
-                Log.debug("responding with file: \(filePath)")
-                try response.send(fileName: filePath)
-            } else {
-                Log.error("Could not find file: \(filePath)")
-                try _ = response.send(status: .internalServerError)
+        if let templateFile = try? File(path: filePath),
+        let templateString = try? String(data: templateFile.readAllBytes()),
+        let template = try? Template(string: templateString),
+        let body = try? template.render(context: Context(box: Box(dictionary: message.context))) {
+            do {
+                Log.debug("sending webpage: \(filePath)")
+                //response.headers.append("Content-Type", value: body.contentType)
+                try response.send(body.string)
             }
-        }
-        catch {
-            Log.error("Failed to send response \(error)")
+            catch {
+                Log.error("Failed to send response \(error)")
+            }
+        } else {
+            Log.error("Failed to parse template")
         }
     }
 }
