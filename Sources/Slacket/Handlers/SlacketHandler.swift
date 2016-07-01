@@ -77,6 +77,7 @@ struct SlacketHandler: Handler, RouterMiddleware, ErrorType {
                 next()
                 return
         }
+        let errorView = ErrorView(response: response)
         
         switch action {
         case .addCommand:
@@ -85,8 +86,13 @@ struct SlacketHandler: Handler, RouterMiddleware, ErrorType {
                 SlacketService.process(request: slackCommand) { slackMessage in
                     view.show(message: slackMessage)
                 }
+            } else {
+                let message = "command couldn't be parsed"
+                Log.error(message)
+                errorView.error(message: message)
+                return
             }
-            
+
         case .authorizePocket:
             PocketAuthorizationHandler().handle(request: request, response: response, next: next)
 
