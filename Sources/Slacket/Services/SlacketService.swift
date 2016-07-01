@@ -11,14 +11,14 @@ import LoggerAPI
 
 protocol SlacketServiceProvider {
     
-    static func process(request: SlackCommandType, respond: ((SlackMessageType) -> ()))
+    static func process(request: SlackCommandType, respond: ((SlackMessageType?) -> ()))
 }
 
 struct SlacketService: SlacketServiceProvider {
     
     static let errorDomain = "SlacketUserService"
     
-    static func process(request: SlackCommandType, respond: ((SlackMessageType) -> ())) {
+    static func process(request: SlackCommandType, respond: ((SlackMessageType?) -> ())) {
         
         if let slacketUser = SlacketUserDataStore.sharedInstance.get(keyId: request.userId) where slacketUser.pocketAccessToken != nil,
         let command = request.command.withoutPercentEncoding(),
@@ -36,7 +36,8 @@ struct SlacketService: SlacketServiceProvider {
                                        user: slacketUser) { pocketItem in
                                         guard pocketItem != nil else {
                                             Log.error("pocketItem is nil")
-                                            fatalError()
+                                            respond(nil)
+                                            return
                                         }
                                         
                                         let slackMessage = SlackMessage(responseVisibility: .ephemeral, text: "successfully added link")
