@@ -38,12 +38,16 @@ enum SlackAPI: ConnectorEndpoint {
     var host: String {
         return "hooks.slack.com"
     }
-    
+
+    var port: Int? {
+        return 80
+    }
+
     var path: String {
         switch self {
         case .respond(let command, _):
             let responseUrl = command.responseUrl.withoutPercentEncoding() ?? ""
-            let path = responseUrl.replaceOccurrences(of: "\(self.scheme.rawValue)://\(self.baseURL)", with: "")
+            let path = responseUrl.replacingOccurrences(of: "https://hooks.slack.com/", with: "")
             return path
         }
     }
