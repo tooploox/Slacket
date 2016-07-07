@@ -70,7 +70,7 @@ struct AuthorizeView: ParsedBodyResponder {
         let filename = message.filename
         let publicDirectory = repoDirectory+"public/"
         let filePath = publicDirectory+filename
-        if let templateString = try? String(contentsOfFile: filePath),
+        if let templateString = CFileWrapper.readFrom(file: filePath),
             let template = try? Template(string: templateString),
             let body = try? template.render(context: Context(box: Box(dictionary: message.context))) {
             Log.debug("sending webpage: \(filePath)")
