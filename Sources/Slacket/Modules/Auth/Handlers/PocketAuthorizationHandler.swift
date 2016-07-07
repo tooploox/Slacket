@@ -16,6 +16,7 @@ enum PocketAuthorizationAction: HandlerAction {
     
     case authorizationRequest
     case accessTokenRequest
+    case authorizationTest
     
     static func from(route: String?) -> PocketAuthorizationAction? {
         guard let route = route else {
@@ -27,6 +28,8 @@ enum PocketAuthorizationAction: HandlerAction {
             return PocketAuthorizationAction.authorizationRequest
         case let r where r.startsWith(prefix: PocketAuthorizationAction.accessTokenRequest.route):
             return PocketAuthorizationAction.accessTokenRequest
+        case let r where r.startsWith(prefix: PocketAuthorizationAction.authorizationTest.route):
+            return PocketAuthorizationAction.authorizationTest
         default:
             Log.debug("Unsupported route case")
             return nil
@@ -39,6 +42,8 @@ enum PocketAuthorizationAction: HandlerAction {
             return SlacketAction.authorizePocket.path + "/request"
         case .accessTokenRequest:
             return SlacketAction.authorizePocket.path + "/respond"
+        case .authorizationTest:
+            return SlacketAction.authorizePocket.path + "/test"
         }
     }
 
@@ -51,7 +56,14 @@ enum PocketAuthorizationAction: HandlerAction {
     }
     
     var requiredQueryParameters: [String]? {
-        return ["user", "team"]
+        switch self {
+        case .authorizationRequest:
+            return ["user", "team"]
+        case .accessTokenRequest:
+            return ["user", "team"]
+        case .authorizationTest:
+            return nil
+        }
     }
     
     func redirectUrl(user: SlacketUserType) -> String {
@@ -75,19 +87,21 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
         }
 
         let errorView = ErrorView(response: response)
+        let redirectView = RedirectView(response: response)
+        let messageView = AuthorizeView(response: response)
 
         let parsedBody = request.queryParameters
         
         switch action {
         case .authorizationRequest:
-            let redirectView = RedirectView(response: response)
-            let messageView = AuthorizeView(response: response)
-            
             if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil {
                 PocketAuthorizationRequestService.process(user: slacketUser) { redirectUrl in
                     guard let redirectUrl = redirectUrl else {
-                        Log.error("redirectUrl is nil")
-                        fatalError()
+                        let message = "redirectUrl is nil"
+                        Log.error(message)
+                        errorView.error(message: message)
+                        next()
+                        return
                     }
                     redirectView.redirect(to: redirectUrl)
                 }
@@ -96,14 +110,15 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
             }
             
         case .accessTokenRequest:
-            let messageView = AuthorizeView(response: response)
-            
             if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil,
                 let user = slacketUser as? SlacketUser{
                 PocketAccessTokenRequestService.process(user: slacketUser) { accessTokenResponse in
                     guard let accessTokenResponse = accessTokenResponse else {
-                        Log.error("accessToken is nil")
-                        fatalError()
+                        let message = "accessToken is nil"
+                        Log.error(message)
+                        errorView.error(message: message)
+                        next()
+                        return
                     }
                     let fullSlacketUser = SlacketUser(slackId: user.slackId,
                                                       slackTeamId:  user.slackTeamId,
@@ -114,6 +129,9 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
                     return
                 }
             }
+        case .authorizationTest:
+            messageView.show(message: .authorized)
         }
+        next()
     }
 }

@@ -77,16 +77,29 @@ struct SlacketHandler: Handler, RouterMiddleware, ErrorType {
                 next()
                 return
         }
+        let errorView = ErrorView(response: response)
         
         switch action {
         case .addCommand:
             let view = SlacketView(response: response)
             if let slackCommand: SlackCommandType = SlackCommandParser.parse(body: request.body) {
                 SlacketService.process(request: slackCommand) { slackMessage in
-                    view.show(message: slackMessage)
+                    if let message = slackMessage {
+                        view.show(message: message)
+                    } else {
+                        let message = "command couldn't be handled"
+                        Log.error(message)
+                        errorView.error(message: message)
+                        return
+                    }
                 }
+            } else {
+                let message = "command couldn't be parsed"
+                Log.error(message)
+                errorView.error(message: message)
+                return
             }
-            
+
         case .authorizePocket:
             PocketAuthorizationHandler().handle(request: request, response: response, next: next)
 
