@@ -21,5 +21,5 @@ class SlackCommandDataStore: InMemoryStoreProvider {
     
     static let sharedInstance = SlackCommandDataStore()
     
-    var memoryStore: [Storable.Identifier: Storable] = [:]
+    var store: [Storable.Identifier: Storable] = [:]
 }
