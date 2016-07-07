@@ -11,5 +11,5 @@ import Redbird
 
 protocol RedisStoreProvider: class, DataStoreProvider {
 
-    var store: Redbird { get }
+    var redisStore: Redbird { get }
 }

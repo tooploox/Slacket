@@ -10,21 +10,21 @@ import Foundation
 
 protocol InMemoryStoreProvider: class, DataStoreProvider {
 
-    var store: [Storable.Identifier: Storable] { get set }
+    var memoryStore: [Storable.Identifier: Storable] { get set }
 }
 
 extension InMemoryStoreProvider {
 
     func get(keyId: Storable.Identifier) -> Storable? {
-        return self.store[keyId]
+        return self.memoryStore[keyId]
     }
 
     func set(data: Storable) -> Bool {
-        self.store[data.keyId] = data
+        self.memoryStore[data.keyId] = data
         return true
     }
 
     func clear(keyId: Storable.Identifier) -> Storable? {
-        return self.store.removeValue(forKey: keyId)
+        return self.memoryStore.removeValue(forKey: keyId)
     }
 }

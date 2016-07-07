@@ -21,5 +21,5 @@ class PocketAuthorizationDataStore: InMemoryStoreProvider {
     
     static let sharedInstance = PocketAuthorizationDataStore()
     
-    var store: [Storable.Identifier: Storable] = [:]
+    var memoryStore: [Storable.Identifier: Storable] = [:]
 }

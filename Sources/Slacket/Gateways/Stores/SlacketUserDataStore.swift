@@ -21,5 +21,5 @@ class SlacketUserDataStore: InMemoryStoreProvider {
     
     static let sharedInstance = SlacketUserDataStore()
     
-    var store: [Storable.Identifier: Storable] = [:]
+    var memoryStore: [Storable.Identifier: Storable] = [:]
 }
