@@ -22,7 +22,7 @@ extension SlacketUser: RedisStorableType {
 
     static func deserialize(redisObject: RespObject) -> SlacketUser? {
         Log.debug("SlacketUser deserialize")
-        guard let serialized = try? redisObject.toString() where redisObject.respType == .SimpleString,
+        guard let serialized = try? redisObject.toString(),
             let data = serialized.data(using: NSUTF8StringEncoding),
             let urlEncoded = ParsedBody.init(data: data, contentType: "application/x-www-form-urlencoded") else {
                 Log.debug("deserialize error")
