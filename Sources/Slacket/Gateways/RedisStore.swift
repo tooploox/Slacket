@@ -90,6 +90,9 @@ class RedisStore: RedisClientType {
 
     lazy var client: Redbird? = {
         let config = RedbirdConfig(address: self.host, port: self.port)
-        return try? Redbird(config: config)
+        let client = try? Redbird(config: config)
+        let logmessage = client != nil ? "OK" : "Error"
+        Log.debug("Redis connection: \(logmessage)")
+        return client
     }()
 }
