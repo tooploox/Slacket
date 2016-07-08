@@ -24,7 +24,8 @@ extension InMemoryStoreProvider {
         return true
     }
 
-    func clear(keyId: Storable.Identifier) -> Storable? {
-        return self.memoryStore.removeValue(forKey: keyId)
+    func clear(keyId: Storable.Identifier) -> Bool {
+        let object = self.memoryStore.removeValue(forKey: keyId)
+        return object != nil
     }
 }

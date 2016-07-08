@@ -124,8 +124,9 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
                                                       slackTeamId:  user.slackTeamId,
                                                       pocketAccessToken: accessTokenResponse.pocketAccessToken,
                                                       pocketUsername: accessTokenResponse.pocketUsername)
-                    let _ = SlacketUserDataStore.sharedInstance.set(data: fullSlacketUser)
-                    messageView.show(message: .authorized)
+                    let result = SlacketUserDataStore.sharedInstance.set(data: fullSlacketUser)
+                    let message: AuthorizeMessage = result ? .authorized : .pocketError
+                    messageView.show(message: message)
                     return
                 }
             }

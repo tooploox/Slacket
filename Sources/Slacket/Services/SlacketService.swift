@@ -49,9 +49,9 @@ struct SlacketService: SlacketServiceProvider {
                                       slackTeamId: request.teamId,
                                       pocketAccessToken: nil,
                                       pocketUsername: nil)
-            let _ = SlacketUserDataStore.sharedInstance.set(data: newUser)
-            let message = SlackMessage(responseVisibility: .ephemeral,
-                                       text: "Please go to \(PocketAuthorizationAction.authorizationRequest.redirectUrl(user: newUser))")
+            let result = SlacketUserDataStore.sharedInstance.set(data: newUser)
+            let userMessage = result ? "Please go to \(PocketAuthorizationAction.authorizationRequest.redirectUrl(user: newUser))" : "Ooops... there was an internal error"
+            let message = SlackMessage(responseVisibility: .ephemeral, text: userMessage)
             respond(message)
         }
     }

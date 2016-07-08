@@ -23,5 +23,5 @@ protocol DataStoreProvider: StoreType {
 
     func get(keyId: Storable.Identifier) -> Storable?
     func set(data: Storable) -> Bool
-    func clear(keyId: Storable.Identifier) -> Storable?
+    func clear(keyId: Storable.Identifier) -> Bool
 }
