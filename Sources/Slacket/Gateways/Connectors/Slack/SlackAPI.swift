@@ -11,6 +11,7 @@ import Kitura
 import KituraNet
 import SimpleHttpClient
 import Environment
+import HeliumLogger
 
 protocol SlackAppType {
     
@@ -21,7 +22,8 @@ extension SlackAppType {
     
     var slackToken: String {
         guard let token = Environment().getVar("SLACK_TOKEN") else {
-            fatalError("Cannot find SLACK_TOKEN environmental variable.")
+            Log.error(SlacketError.slackMissingToken.description)
+            fatalError()
         }
         return token
     }

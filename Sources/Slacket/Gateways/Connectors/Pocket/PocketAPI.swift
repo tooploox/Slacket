@@ -10,6 +10,7 @@ import Foundation
 import Kitura
 import SimpleHttpClient
 import Environment
+import HeliumLogger
 
 protocol PocketAppType {
     
@@ -20,7 +21,8 @@ extension PocketAppType {
     
     var pocketConsumerKey: String {
         guard let key = Environment().getVar("POCKET_CONSUMER_KEY") else {
-            fatalError("Cannot find POCKET_CONSUMER_KEY environmental variable.")
+            Log.error(SlacketError.pocketMissingConsumerKey.description)
+            fatalError()
         }
         return key
     }

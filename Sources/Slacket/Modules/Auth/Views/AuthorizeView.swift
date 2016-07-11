@@ -38,11 +38,11 @@ enum AuthorizeMessage {
             case .authorizationError:
                 context["title"] = "Not authorized"
                 context["heading"] = "Bummer ;("
-                context["message"] = "Your Pocket account could not be linked, beacuse Pocket server denied authorization."
+                context["message"] = SlacketError.pocketAuthorization.description
             case .pocketError:
                 context["title"] = "Error"
                 context["heading"] = "Oops ..."
-                context["message"] = "Something went wrong...</br>and we don't know what :("
+                context["message"] = SlacketError.pocketUnknown.description
         }
         return context
     }
@@ -76,7 +76,7 @@ struct AuthorizeView: ParsedBodyResponder {
             let template = try? Template(string: templateString),
             let body = try? template.render(context: Context(box: Box(dictionary: message.context))) {
             Log.debug("sending webpage: \(filePath)")
-            //response.headers.append("Content-Type", value: body.contentType)
+            // response.headers.append("Content-Type", value: body.contentType)
             response.status(message.status).send(body.string)
         } else {
             Log.error("Failed to parse template")
