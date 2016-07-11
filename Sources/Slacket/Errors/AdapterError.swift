@@ -1,5 +1,5 @@
 //
-//  ClientError.swift
+//  AdapterError.swift
 //  Slacket
 //
 //  Created by Bartłomiej Nowak on 11/07/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ClientError: ErrorProtocol, DescribableError {
+enum AdapterError: ErrorProtocol, DescribableError {
     case parsedBodyNilContentTypeString
     case parsedBodyFailedJsonSerialization
     case parsedBodyFailedParsingContentType
