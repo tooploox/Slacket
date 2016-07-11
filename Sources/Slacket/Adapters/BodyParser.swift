@@ -64,7 +64,7 @@ extension ParsedBody {
     
     init?(data: NSData, contentType contentTypeString: String?) {
         guard let contentTypeString = contentTypeString else {
-            Log.debug(ClientError.parsedBodyNilContentTypeString.description)
+            Log.debug(AdapterError.parsedBodyNilContentTypeString.description)
             return nil
         }
         
@@ -86,11 +86,11 @@ extension ParsedBody {
             if json != JSON.null {
                 self = .json(json)
             } else {
-                Log.debug(ClientError.parsedBodyFailedJsonSerialization.description)
+                Log.debug(AdapterError.parsedBodyFailedJsonSerialization.description)
                 return nil
             }
         } else {
-            Log.debug(ClientError.parsedBodyFailedParsingContentType.description)
+            Log.debug(AdapterError.parsedBodyFailedParsingContentType.description)
             return nil
         }
     }
@@ -111,7 +111,7 @@ extension ParsedBody {
     
     private func encode(multipart parts: [Part]) -> NSData? {
         // TODO: - encode implementation
-        Log.debug(ClientError.parsedBodyEncodeUnimplemented.description)
+        Log.debug(AdapterError.parsedBodyEncodeUnimplemented.description)
         return nil
     }
 }

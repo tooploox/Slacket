@@ -13,7 +13,6 @@ enum SlacketError: ErrorProtocol, DescribableError {
     case pocketUnknown
     case pocketMissingConsumerKey
     case slackMissingToken
-    case connectorProviderUnsupportedMethod
     
     var description: String {
         switch self {
@@ -25,8 +24,6 @@ enum SlacketError: ErrorProtocol, DescribableError {
                 return "Cannot find POCKET_CONSUMER_KEY environmental variable"
             case .slackMissingToken:
                 return "Slack missing SLACK_TOKEN environmental variable"
-            case .connectorProviderUnsupportedMethod:
-                return "Unsupported connector endpoint method case"
         }
     }
 }
