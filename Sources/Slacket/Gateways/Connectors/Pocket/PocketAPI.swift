@@ -10,7 +10,7 @@ import Foundation
 import Kitura
 import SimpleHttpClient
 import Environment
-import HeliumLogger
+import LoggerAPI
 
 protocol PocketAppType {
     

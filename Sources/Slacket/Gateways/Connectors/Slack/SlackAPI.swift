@@ -11,7 +11,7 @@ import Kitura
 import KituraNet
 import SimpleHttpClient
 import Environment
-import HeliumLogger
+import LoggerAPI
 
 protocol SlackAppType {
     
