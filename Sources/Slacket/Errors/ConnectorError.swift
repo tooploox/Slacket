@@ -1,5 +1,5 @@
 //
-//  ApiConnectorError.swift
+//  ConnectorError.swift
 //  Slacket
 //
 //  Created by Bartłomiej Nowak on 11/07/16.
@@ -13,10 +13,11 @@ enum ApiType: String {
     case Pocket
 }
 
-enum ApiConnectorError: ErrorProtocol, DescribableError {
+enum ConnectorError: ErrorProtocol, DescribableError {
     case missingAccessToken
     case missingStatus(for: ApiType)
     case nilDataParsedBodyOrAccessTokenResponse
+    case addRequestNilUrl
     
     var description: String {
         switch self {
@@ -26,6 +27,8 @@ enum ApiConnectorError: ErrorProtocol, DescribableError {
             return "\(apiType.rawValue)ApiConnector request status is nil or status != 1"
         case .nilDataParsedBodyOrAccessTokenResponse:
             return "PocketApiConnector data, parsedBody or accessTokenResponse is nil"
+        case .addRequestNilUrl:
+            return "Pocket add request URL is nil"
         }
     }
 }
