@@ -21,7 +21,7 @@ struct PocketApiConnector: PocketConnectorType {
     
     static func addLink(url: String, tags: [String]?, user: SlacketUserType, completion: (PocketItemType?) -> Void) {
         guard let pocketAccessToken = user.pocketAccessToken else {
-            Log.error("pocketAccessToken is nil")
+            Log.error(ConnectorError.missingAccessToken.description)
             return completion(nil)
         }
         
@@ -33,7 +33,7 @@ struct PocketApiConnector: PocketConnectorType {
         let pocketEndpoint = PocketAPI.add(pocketAddRequest)
         pocketEndpoint.request() { error, status, headers, data in
             guard let status = status else {
-                Log.error("status is nil")
+                Log.error(ConnectorError.missingStatus(for: .Pocket).description)
                 fatalError()
             }
             Log.debug("pocketEndpoint.request() returned status \(status)")
@@ -45,11 +45,11 @@ struct PocketApiConnector: PocketConnectorType {
                     where pocketAddResponse.status == 1 {
                     completion(pocketAddResponse.item)
                 } else {
-                    Log.debug("pocketAddResponse is nil or pocketAddResponse.status != 1")
+                    Log.debug(ConnectorError.missingStatus(for: .Pocket).description)
                     completion(nil)
                 }
             } else {
-                Log.debug("data or pocketAddResponseBody is nil")
+                Log.debug(ConnectorError.nilDataParsedBodyOrAccessTokenResponse.description)
                 completion(nil)
             }
         }

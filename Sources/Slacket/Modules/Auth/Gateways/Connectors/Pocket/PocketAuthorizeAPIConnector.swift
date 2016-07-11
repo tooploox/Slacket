@@ -27,7 +27,7 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
         
         authorizeEndpoint.request() { error, status, headers, data in
             guard let status = status else {
-                Log.error("status is nil")
+                Log.error(ConnectorError.missingStatus(for: .Pocket).description)
                 fatalError()
             }
             Log.debug("pocketEndpoint.request() returned status \(status)")
@@ -39,7 +39,7 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
                 let redirectUrl = authorizeEndpoint.redirectUrl(for: authorizationResponse) {
                 completion((authorizationResponse, redirectUrl))
             } else {
-                Log.debug("parse data, parsedBody or authorizationResponse is nil")
+                Log.debug(ConnectorError.nilDataParsedBodyOrAccessTokenResponse.description)
                 completion(nil)
             }
         }
@@ -52,7 +52,7 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
         
         accessTokenEndpoint.request() { error, status, headers, data in
             guard let status = status else {
-                Log.error("status is nil")
+                Log.error(ConnectorError.missingStatus(for: .Pocket).description)
                 fatalError()
             }
             Log.debug("pocketEndpoint.request() returned status \(status)")
@@ -64,7 +64,7 @@ struct PocketAuthorizeAPIConnector: PocketAuthorizeAPIConnectorType {
                 let accessTokenResponse = accessTokenResponse as PocketAccessTokenResponseType
                 completion(accessTokenResponse)
             } else {
-                Log.debug("parse data, parsedBody or accessTokenResponse is nil")
+                Log.debug(ConnectorError.nilDataParsedBodyOrAccessTokenResponse.description)
                 completion(nil)
             }
         }
