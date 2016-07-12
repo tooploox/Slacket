@@ -13,17 +13,23 @@ enum AdapterError: ErrorProtocol, DescribableError {
     case parsedBodyFailedJsonSerialization
     case parsedBodyFailedParsingContentType
     case parsedBodyEncodeUnimplemented
+    case parserDecoderTypeNilBody
+    case parserDecoderTypeUnsupportedBodyType
     
     var description: String {
         switch self {
-        case .parsedBodyNilContentTypeString:
-            return "ParsedBody.init? contentTypeString is nil"
-        case .parsedBodyFailedJsonSerialization:
-            return "ParsedBody.init? failed to serialize JSON from provided data"
-        case .parsedBodyFailedParsingContentType:
-            return "ParsedBody.init? failed to parse contentType"
-        case .parsedBodyEncodeUnimplemented:
-            return "ParsedBody.init? encode is unimplemented"
+            case .parsedBodyNilContentTypeString:
+                return "ParsedBody.init? contentTypeString is nil"
+            case .parsedBodyFailedJsonSerialization:
+                return "ParsedBody.init? failed to serialize JSON from provided data"
+            case .parsedBodyFailedParsingContentType:
+                return "ParsedBody.init? failed to parse contentType"
+            case .parsedBodyEncodeUnimplemented:
+                return "ParsedBody.init? encode is unimplemented"
+            case .parserDecoderTypeNilBody:
+                return "ParserDecoderType body is nil"
+            case .parserDecoderTypeUnsupportedBodyType:
+                return "ParserDecoderType unsupported body type"
         }
     }
 }
