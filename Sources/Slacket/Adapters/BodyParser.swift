@@ -19,16 +19,16 @@ extension ParsedBody {
     
     var contentType: String {
         switch self {
-        case .text:
-            return "text/plain"
-        case .urlEncoded:
-            return "application/x-www-form-urlencoded"
-        case .json:
-            return "application/json"
-        case .multipart:
-            return "multipart/mixed"
-        case raw:
-            return "application/binary"
+            case .text:
+                return "text/plain"
+            case .urlEncoded:
+                return "application/x-www-form-urlencoded"
+            case .json:
+                return "application/json"
+            case .multipart:
+                return "multipart/mixed"
+            case raw:
+                return "application/binary"
         }
     }
     
@@ -49,16 +49,16 @@ extension ParsedBody {
     
     var data: NSData? {
         switch self {
-        case .text(let text):
-            return self.encode(text: text)
-        case .urlEncoded(let parameters):
-            return self.encode(parameters: parameters)
-        case .json(let json):
-            return self.encode(json: json)
-        case .multipart(let parts):
-            return self.encode(multipart: parts)
-        case .raw(let data):
-            return data
+            case .text(let text):
+                return self.encode(text: text)
+            case .urlEncoded(let parameters):
+                return self.encode(parameters: parameters)
+            case .json(let json):
+                return self.encode(json: json)
+            case .multipart(let parts):
+                return self.encode(multipart: parts)
+            case .raw(let data):
+                return data
         }
     }
     
