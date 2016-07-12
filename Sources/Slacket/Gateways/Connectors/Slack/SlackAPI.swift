@@ -22,7 +22,7 @@ extension SlackAppType {
     
     var slackToken: String {
         guard let token = Environment().getVar("SLACK_TOKEN") else {
-            Log.error(SlacketError.slackMissingToken.description)
+            Log.error(SlacketError.slackMissingToken)
             fatalError()
         }
         return token

@@ -20,7 +20,7 @@ struct PocketAccessTokenRequestService: PocketAccessTokenRequestServiceProvider 
     
     static func process(user: SlacketUserType, respond: (PocketAccessTokenResponseType?) -> Void) {
         guard let user = user as? SlacketUser else {
-            Log.debug("user is nil")
+            Log.debug(ConnectorError.pocketAccessTokenRequestService)
             respond(nil)
             return
         }
@@ -30,7 +30,7 @@ struct PocketAccessTokenRequestService: PocketAccessTokenRequestServiceProvider 
                 respond(accessTokenResponse)
             }
         } else {
-            Log.debug("authData is nil")
+            Log.debug(ConnectorError.pocketAccessTokenRequestService)
         }
     }
 }

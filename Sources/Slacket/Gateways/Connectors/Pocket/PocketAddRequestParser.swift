@@ -15,7 +15,7 @@ extension PocketAddRequestType {
     
     var decodedURL: String {        
         guard let url = url.withoutPercentEncoding() else {
-            Log.error(ConnectorError.addRequestNilUrl.description)
+            Log.error(ConnectorError.addRequestNilUrl)
             fatalError()
         }
         return url

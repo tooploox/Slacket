@@ -20,7 +20,7 @@ struct PocketAuthorizationResponseParser: ParserDecoderType {
         if let requestToken = raw["code"].string {
             return PocketAuthorizationResponse(pocketRequestToken: requestToken)
         } else {
-            Log.debug("Failed to decode PocketAuthorizationResponse")
+            Log.debug(ConnectorError.pocketAuthorizationResponseParser)
             return nil
         }
     }

@@ -37,7 +37,7 @@ struct SlackCommandParser: ParserDecoderType {
                                 text: text,
                                 responseUrl: responseUrl)
         } else {
-            Log.debug("Failed to decode SlackCommandType \(raw)")
+            Log.debug(AdapterError.slackCommandParserFailedDecoding(raw))
             return nil
         }
     }

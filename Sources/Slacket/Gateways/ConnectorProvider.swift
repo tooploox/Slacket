@@ -20,7 +20,7 @@ struct ConnectorProvider<Endpoint: ConnectorEndpoint> {
         case .post:
             HttpClient.post(resource: endpoint.resource, headers: endpoint.headers, data: endpoint.data, completionHandler: handler)
         default:
-            Log.error(ConnectorError.connectorProviderUnsupportedMethod.description)
+            Log.error(ConnectorError.connectorProviderUnsupportedMethod)
             fatalError()
         }
     }

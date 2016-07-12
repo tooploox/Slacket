@@ -46,7 +46,7 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
     
     var acceptHeaders: [String: String]? {
         guard let contentType = self.acceptContentType else {
-            Log.debug("contentType is nil")
+            Log.debug(ConnectorError.pocketAuthorizeApiNilContentType)
             return nil
         }
         return ["X-Accept": "\(contentType); charset=UTF8"]
@@ -66,7 +66,7 @@ enum PocketAuthorizeAPI: ConnectorEndpoint {
             if let redirectUrl = req.pocketRedirectUri.stringByAddingPercentEncoding() {
                 return "https://getpocket.com/auth/authorize?request_token=\(response.pocketRequestToken)&redirect_uri=\(redirectUrl)"
             } else {
-                Log.debug("redirectUrl is nil")
+                Log.debug(ConnectorError.pocketAuthorizeApiNilRedirectUrl)
                 return nil
             }
         case .requestAccessToken:

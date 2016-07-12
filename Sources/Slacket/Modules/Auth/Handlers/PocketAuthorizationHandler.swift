@@ -20,19 +20,19 @@ enum PocketAuthorizationAction: HandlerAction {
     
     static func from(route: String?) -> PocketAuthorizationAction? {
         guard let route = route else {
-            Log.error("route is nil")
+            Log.error(ConnectorError.pocketAuthorizationActionNilRoute)
             return nil
         }
         switch route {
-        case let r where r.startsWith(prefix: PocketAuthorizationAction.authorizationRequest.route):
-            return PocketAuthorizationAction.authorizationRequest
-        case let r where r.startsWith(prefix: PocketAuthorizationAction.accessTokenRequest.route):
-            return PocketAuthorizationAction.accessTokenRequest
-        case let r where r.startsWith(prefix: PocketAuthorizationAction.authorizationTest.route):
-            return PocketAuthorizationAction.authorizationTest
-        default:
-            Log.debug("Unsupported route case")
-            return nil
+            case let r where r.startsWith(prefix: PocketAuthorizationAction.authorizationRequest.route):
+                return PocketAuthorizationAction.authorizationRequest
+            case let r where r.startsWith(prefix: PocketAuthorizationAction.accessTokenRequest.route):
+                return PocketAuthorizationAction.accessTokenRequest
+            case let r where r.startsWith(prefix: PocketAuthorizationAction.authorizationTest.route):
+                return PocketAuthorizationAction.authorizationTest
+            default:
+                Log.debug(ConnectorError.pocketAuthorizationActionUnsupportedRoute)
+                return nil
         }
     }
     
@@ -79,9 +79,9 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
         Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let action = PocketAuthorizationAction(request: request) else {
-            let errorMessage = "Preconditions not met"
-            Log.error(errorMessage)
-            response.error = self.getError(message: errorMessage)
+            let error = ConnectorError.pocketAuthorizationHandlerActionCouldntInit
+            Log.error(error)
+            response.error = self.getError(message: error.description)
             next()
             return
         }
@@ -93,45 +93,45 @@ struct PocketAuthorizationHandler: Handler, ErrorType {
         let parsedBody = request.queryParameters
         
         switch action {
-        case .authorizationRequest:
-            if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil {
-                PocketAuthorizationRequestService.process(user: slacketUser) { redirectUrl in
-                    guard let redirectUrl = redirectUrl else {
-                        let message = "redirectUrl is nil"
-                        Log.error(message)
-                        errorView.error(message: message)
-                        next()
+            case .authorizationRequest:
+                if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil {
+                    PocketAuthorizationRequestService.process(user: slacketUser) { redirectUrl in
+                        guard let redirectUrl = redirectUrl else {
+                            let error = ConnectorError.pocketAuthorizationHandlerRedirectUrl
+                            Log.error(error)
+                            errorView.error(message: error.description)
+                            next()
+                            return
+                        }
+                        redirectView.redirect(to: redirectUrl)
+                    }
+                } else {
+                    Log.debug(ConnectorError.pocketAuthorizationHandlerSlacketUser)
+                }
+                
+            case .accessTokenRequest:
+                if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil,
+                    let user = slacketUser as? SlacketUser{
+                    PocketAccessTokenRequestService.process(user: slacketUser) { accessTokenResponse in
+                        guard let accessTokenResponse = accessTokenResponse else {
+                            let error = ConnectorError.pocketAuthorizationHandlerSlacketUser
+                            Log.error(error)
+                            errorView.error(message: error.description)
+                            next()
+                            return
+                        }
+                        let fullSlacketUser = SlacketUser(slackId: user.slackId,
+                                                          slackTeamId:  user.slackTeamId,
+                                                          pocketAccessToken: accessTokenResponse.pocketAccessToken,
+                                                          pocketUsername: accessTokenResponse.pocketUsername)
+                        let result = SlacketUserDataStore.sharedInstance.set(data: fullSlacketUser)
+                        let message: AuthorizeMessage = result ? .authorized : .pocketError
+                        messageView.show(message: message)
                         return
                     }
-                    redirectView.redirect(to: redirectUrl)
                 }
-            } else {
-                Log.debug("slacketUser or slacketUser.pocketAccessToken is nil")
-            }
-            
-        case .accessTokenRequest:
-            if let slacketUser = SlacketUserParser.parse(body: ParsedBody.urlEncoded(parsedBody)) where slacketUser.pocketAccessToken == nil,
-                let user = slacketUser as? SlacketUser{
-                PocketAccessTokenRequestService.process(user: slacketUser) { accessTokenResponse in
-                    guard let accessTokenResponse = accessTokenResponse else {
-                        let message = "accessToken is nil"
-                        Log.error(message)
-                        errorView.error(message: message)
-                        next()
-                        return
-                    }
-                    let fullSlacketUser = SlacketUser(slackId: user.slackId,
-                                                      slackTeamId:  user.slackTeamId,
-                                                      pocketAccessToken: accessTokenResponse.pocketAccessToken,
-                                                      pocketUsername: accessTokenResponse.pocketUsername)
-                    let result = SlacketUserDataStore.sharedInstance.set(data: fullSlacketUser)
-                    let message: AuthorizeMessage = result ? .authorized : .pocketError
-                    messageView.show(message: message)
-                    return
-                }
-            }
-        case .authorizationTest:
-            messageView.show(message: .authorized)
+            case .authorizationTest:
+                messageView.show(message: .authorized)
         }
         next()
     }
