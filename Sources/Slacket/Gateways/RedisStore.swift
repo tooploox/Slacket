@@ -21,7 +21,7 @@ extension RedisClientType {
 
     var host: String {
         guard let host = Environment().getVar("REDIS_HOST") else {
-            fatalError("Cannot find REDIS_HOST environmental variable.")
+            fatalError(SlacketError.redisMissingHost.description)
         }
         return host
     }
@@ -55,7 +55,7 @@ extension RedisStoreProvider where Storable: RedisStorableType, Storable.Identif
             Log.debug("Redis GET for key: \(keyId)")
             return storable
         } else {
-            Log.error("RedisStoreProvider error for GET")
+            Log.error(SlacketError.redisStoreProviderError(for: .get).description)
             return nil
         }
     }
@@ -67,7 +67,7 @@ extension RedisStoreProvider where Storable: RedisStorableType, Storable.Identif
             Log.debug("Redis SET for key: \(data.keyId)")
             return result == "OK"
         } else {
-            Log.error("RedisStoreProvider error for SET")
+            Log.error(SlacketError.redisStoreProviderError(for: .set).description)
             return false
         }
     }
@@ -78,7 +78,7 @@ extension RedisStoreProvider where Storable: RedisStorableType, Storable.Identif
             Log.debug("Redis DEL for key: \(keyId)")
             return result > 0
         } else {
-            Log.error("RedisStoreProvider error for DEL")
+            Log.error(SlacketError.redisStoreProviderError(for: .del).description)
             return false
         }
     }
