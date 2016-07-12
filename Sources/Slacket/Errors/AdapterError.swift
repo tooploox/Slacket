@@ -15,7 +15,7 @@ enum AdapterError: ErrorProtocol, DescribableError {
     case parsedBodyEncodeUnimplemented
     case parserDecoderTypeNilBody
     case parserDecoderTypeUnsupportedBodyType
-    case parserEncoderTypeFailedEncoding(Parsable)
+    case parserEncoderTypeFailedEncoding
     case slackCommandParserFailedDecoding(SlackCommandParser.ParsedType)
     case slacketUserParserFailedDecoding(SlacketUserParser.ParsedType)
     
@@ -33,8 +33,8 @@ enum AdapterError: ErrorProtocol, DescribableError {
                 return "ParserDecoderType body is nil"
             case .parserDecoderTypeUnsupportedBodyType:
                 return "ParserDecoderType unsupported body type"
-            case .parserEncoderTypeFailedEncoding(let parsableModel):
-                return "ParserEncoderType failed encoding ParsedType \(parsableModel)"
+            case .parserEncoderTypeFailedEncoding:
+                return "ParserEncoderType failed encoding Parsable"
             case .slackCommandParserFailedDecoding(let parsedType):
                 return "SlackCommandParser failed decoding ParsedType \(parsedType)"
             case .slacketUserParserFailedDecoding(let parsedType):

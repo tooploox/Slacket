@@ -16,10 +16,10 @@ private extension SlackMessageVisibility {
     
     var slackValue: String {
         switch self {
-        case .ephemeral:
-            return "ephemeral"
-        case .inChannel:
-            return "in_channel"
+            case .ephemeral:
+                return "ephemeral"
+            case .inChannel:
+                return "in_channel"
         }
     }
 }
