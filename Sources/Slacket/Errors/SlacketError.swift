@@ -9,6 +9,7 @@
 import Foundation
 
 enum SlacketError: ErrorProtocol, DescribableError {
+    
     enum MethodType: String {
         case get
         case set

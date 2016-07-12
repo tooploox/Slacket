@@ -14,7 +14,7 @@ import Socket
 extension Sequence where Iterator.Element == String {
     
     func joinedBy(separator: String) -> String {
-            return self.joined(separator: separator)
+        return self.joined(separator: separator)
     }
 }
 
