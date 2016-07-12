@@ -29,7 +29,7 @@ struct PocketAuthorizationRequestService: PocketAuthorizationRequestServiceProvi
         let redirectUrl = PocketAuthorizationAction.accessTokenRequest.redirectUrl(user: user)
         PocketAuthorizeAPIConnector.requestAuthorization(redirectUrl: redirectUrl) { response in
             guard let (authorizationResponse, redirectUrl) = response else {
-                Log.debug("authorizationResponse or redirectUrl is nil")
+                Log.debug(ConnectorError.pocketAuthorizationRequestService)
                 respond(nil)
                 return
             }

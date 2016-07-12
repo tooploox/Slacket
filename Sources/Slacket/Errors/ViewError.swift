@@ -12,6 +12,7 @@ import KituraNet
 enum ViewError: ErrorProtocol, DescribableError {
     case responseSendFailure(for: ErrorProtocol)
     case messageParsingFailure
+    case templateParsingFailure
     
     var description: String {
         switch self {
@@ -19,6 +20,8 @@ enum ViewError: ErrorProtocol, DescribableError {
                 return "Failed to send response with \(error)"
             case .messageParsingFailure:
                 return "Failed parsing message"
+            case .templateParsingFailure:
+                return "Failed parsing template"
         }
     }
 }

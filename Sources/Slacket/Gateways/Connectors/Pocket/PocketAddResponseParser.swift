@@ -23,7 +23,7 @@ struct PocketAddResponseParser: ParserDecoderType {
             let status = raw["status"].int {
             return PocketAddResponse(item: item, status: status)
         } else {
-            Log.debug("Failed to decode PocketAddResponse")
+            Log.debug(ConnectorError.addResponseCouldntDecode)
             return nil
         }
     }

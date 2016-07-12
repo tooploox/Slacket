@@ -38,7 +38,7 @@ struct PocketItemParser: ParserDecoderType {
             let isArticle = Int(raw["is_article"].string ?? "") {
             return PocketItem(itemId: itemId, normalUrl: normalUrl, resolvedId: resolvedId, resolvedUrl: resolvedUrl, domainId: domainId, originDomainId: originDomainId, responseCode: responseCode, mimeType: mimeType, contentLength: contentLength, encoding: encoding, dateResolved: dateResolved, datePublished: datePublished, title: title, excerpt: excerpt, wordCount: wordCount, hasImage: hasImage, hasVideo: hasVideo, isIndex: isIndex, isArticle: isArticle)
         } else {
-            Log.debug("Failed to decode PocketItem")
+            Log.debug(ConnectorError.pocketItemParserCouldntDecode)
             return nil
         }
     }

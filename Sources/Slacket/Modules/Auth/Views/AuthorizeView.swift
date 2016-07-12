@@ -76,10 +76,9 @@ struct AuthorizeView: ParsedBodyResponder {
             let template = try? Template(string: templateString),
             let body = try? template.render(context: Context(box: Box(dictionary: message.context))) {
             Log.debug("sending webpage: \(filePath)")
-            // response.headers.append("Content-Type", value: body.contentType)
             response.status(message.status).send(body.string)
         } else {
-            Log.error("Failed to parse template")
+            Log.error(ViewError.templateParsingFailure)
         }
     }
 }

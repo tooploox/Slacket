@@ -9,7 +9,6 @@
 import Foundation
 
 enum SlacketError: ErrorProtocol, DescribableError {
-    
     enum MethodType: String {
         case get
         case set
@@ -27,6 +26,8 @@ enum SlacketError: ErrorProtocol, DescribableError {
     case slacketHandlerActionCouldntInit
     case slacketServiceNilPocketItem
     case handlerActionCouldntInit
+    case slacketUserDeserialization
+    case slacketUserSerialization
     
     var description: String {
         switch self {
@@ -52,6 +53,10 @@ enum SlacketError: ErrorProtocol, DescribableError {
                 return "SlacketService PocketItem is nil"
             case .handlerActionCouldntInit:
                 return "HandlerAction init failed"
+            case .slacketUserDeserialization:
+                return "SlacketUser deserialization error"
+            case .slacketUserSerialization:
+                return "SlacketUser serialization error"
         }
     }
 }

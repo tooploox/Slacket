@@ -21,7 +21,7 @@ extension PocketAppType {
     
     var pocketConsumerKey: String {
         guard let key = Environment().getVar("POCKET_CONSUMER_KEY") else {
-            Log.error(SlacketError.pocketMissingConsumerKey.description)
+            Log.error(SlacketError.pocketMissingConsumerKey)
             fatalError()
         }
         return key

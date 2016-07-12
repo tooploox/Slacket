@@ -21,7 +21,7 @@ struct PocketAccessTokenResponseParser: ParserDecoderType {
             let username = raw["username"].string {
             return PocketAccessTokenResponse(pocketAccessToken: accessToken, pocketUsername: username)
         } else {
-            Log.debug("Failed to decode PocketAccesTokenResponse")
+            Log.debug(ConnectorError.pocketAccessTokenResponseParser)
             return nil
         }
     }

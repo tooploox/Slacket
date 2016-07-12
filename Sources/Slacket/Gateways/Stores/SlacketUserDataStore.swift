@@ -25,7 +25,7 @@ extension SlacketUser: RedisStorableType {
         guard let serialized = try? redisObject.toString(),
             let data = serialized.data(using: NSUTF8StringEncoding),
             let urlEncoded = ParsedBody.init(data: data, contentType: "application/x-www-form-urlencoded") else {
-                Log.debug("deserialize error")
+                Log.debug(SlacketError.slacketUserDeserialization)
                 return nil
         }
         Log.debug("deserialize ok")
@@ -35,7 +35,7 @@ extension SlacketUser: RedisStorableType {
     func serialize() -> String? {
         Log.debug("SlacketUser serialize")
         guard let dictonary = SlacketUserParser.encode(model: self) else {
-            Log.debug("deserialize error")
+            Log.debug(SlacketError.slacketUserSerialization)
             return nil
         }
         let urlEncoded = ParsedBody.urlEncoded(dictonary as DictionaryType)
@@ -44,7 +44,7 @@ extension SlacketUser: RedisStorableType {
             Log.debug("deserialize ok")
             return string
         } else {
-            Log.debug("deserialize error")
+            Log.debug(SlacketError.slacketUserSerialization)
             return nil
         }
     }

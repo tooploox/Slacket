@@ -30,7 +30,7 @@ struct RedirectView: RedirectResponder {
             try response.redirect(url)
         }
         catch {
-            Log.error("Failed to send response \(error)")
+            Log.error(ViewError.responseSendFailure(for: error))
         }
     }
 }
