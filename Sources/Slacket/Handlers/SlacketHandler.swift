@@ -71,9 +71,9 @@ struct SlacketHandler: Handler, RouterMiddleware, ErrorType {
         Log.debug("\(self.dynamicType.errorDomain) handler")
         
         guard let action = SlacketAction(request: request) else {
-            let errorMessage = SlacketError.slacketHandlerActionCouldntInit.description
-            Log.error(errorMessage)
-            response.error = self.getError(message: errorMessage)
+            let error = SlacketError.slacketHandlerActionCouldntInit
+            Log.error(error)
+            response.error = self.getError(message: error.description)
             next()
             return
         }
@@ -87,16 +87,16 @@ struct SlacketHandler: Handler, RouterMiddleware, ErrorType {
                         if let message = slackMessage {
                             view.show(message: message)
                         } else {
-                            let message = SlacketError.slacketHandlerCouldntHandleCommand.description
-                            Log.error(message)
-                            errorView.error(message: message)
+                            let error = SlacketError.slacketHandlerCouldntHandleCommand
+                            Log.error(error)
+                            errorView.error(message: error.description)
                             return
                         }
                     }
                 } else {
-                    let message = SlacketError.slacketHandlerCouldntParseCommand.description
-                    Log.error(message)
-                    errorView.error(message: message)
+                    let error = SlacketError.slacketHandlerCouldntParseCommand
+                    Log.error(error)
+                    errorView.error(message: error.description)
                     return
                 }
             case .authorizePocket:

@@ -24,7 +24,7 @@ struct SlacketView: SlacketViewResponder, ParsedBodyResponder {
         if let parsed = SlackMessageParser.parse(model: message) {
             self.show(body: parsed)
         } else {
-            Log.debug("parsed is nil")
+            Log.debug(ViewError.messageParsingFailure)
         }
     }
 }

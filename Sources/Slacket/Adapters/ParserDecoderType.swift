@@ -21,7 +21,7 @@ extension ParserDecoderType where ParsedType == JsonType {
     
     static func parse(body: ParsedBody?) -> Parsable? {
         guard let body = body else {
-            Log.error(AdapterError.parserDecoderTypeNilBody.description)
+            Log.error(AdapterError.parserDecoderTypeNilBody)
             return nil
         }
         switch body {
@@ -34,7 +34,7 @@ extension ParserDecoderType where ParsedType == JsonType {
                     return self.decode(raw: JSON(dict as AnyObject))
                 #endif
             default:
-                Log.debug(AdapterError.parserDecoderTypeUnsupportedBodyType.description)
+                Log.debug(AdapterError.parserDecoderTypeUnsupportedBodyType)
                 return nil
         }
     }
@@ -51,7 +51,7 @@ extension ParserDecoderType where ParsedType == DictionaryType {
             case .urlEncoded(let dict):
                 return self.decode(raw: dict)
             default:
-                Log.debug(AdapterError.parserDecoderTypeUnsupportedBodyType.description)
+                Log.debug(AdapterError.parserDecoderTypeUnsupportedBodyType)
                 return nil
         }
     }
@@ -67,7 +67,7 @@ extension ParserDecoderType where ParsedType == TextType {
             case .text(let text):
                 return self.decode(raw: text)
             default:
-                Log.debug(AdapterError.parserDecoderTypeUnsupportedBodyType.description)
+                Log.debug(AdapterError.parserDecoderTypeUnsupportedBodyType)
                 return nil
         }
     }

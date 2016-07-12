@@ -35,7 +35,7 @@ struct SlacketService: SlacketServiceProvider {
                                        tags: [request.teamDomain, request.channelName],
                                        user: slacketUser) { pocketItem in
                                         guard pocketItem != nil else {
-                                            Log.error("pocketItem is nil")
+                                            Log.error(SlacketError.slacketServiceNilPocketItem)
                                             respond(nil)
                                             return
                                         }

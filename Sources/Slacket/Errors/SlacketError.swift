@@ -25,6 +25,8 @@ enum SlacketError: ErrorProtocol, DescribableError {
     case slacketHandlerCouldntHandleCommand
     case slacketHandlerCouldntParseCommand
     case slacketHandlerActionCouldntInit
+    case slacketServiceNilPocketItem
+    case handlerActionCouldntInit
     
     var description: String {
         switch self {
@@ -46,6 +48,10 @@ enum SlacketError: ErrorProtocol, DescribableError {
                 return "SlacketHandler SlackCommand couldn't be parsed"
             case .slacketHandlerActionCouldntInit:
                 return "SlackedHandler SlacketAction init failed"
+            case slacketServiceNilPocketItem:
+                return "SlacketService PocketItem is nil"
+            case .handlerActionCouldntInit:
+                return "HandlerAction init failed"
         }
     }
 }

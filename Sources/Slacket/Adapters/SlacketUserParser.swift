@@ -23,7 +23,7 @@ struct SlacketUserParser: ParserDecoderType {
                                pocketAccessToken: raw["pocket_access_token"],
                                pocketUsername: raw["pocket_user"])
         } else {
-            Log.debug(AdapterError.slacketUserParserFailedDecoding(raw).description)
+            Log.debug(AdapterError.slacketUserParserFailedDecoding(raw))
             return nil
         }
     }

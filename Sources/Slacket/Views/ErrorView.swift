@@ -22,10 +22,10 @@ struct ErrorView: ErrorViewResponder {
 
     func error(message: String?) {
         do {
-            try response.send(status: .internalServerError)
+            let _ = try response.send(status: .internalServerError)
         }
         catch {
-            Log.error("Failed to send response \(error)")
+            Log.error(ViewError.responseSendFailure(for: error))
         }
     }
 }

@@ -23,25 +23,24 @@ extension ParsedBodyResponder {
         response.status(.OK)
         response.headers.append(body.contentTypeHeaderKey, value: body.contentTypeHeaderValue)
         switch body {
-        case .json(let json):
-            response.send(json.description)
-        case .urlEncoded(let dict):
-            let keyValue = dict.map { "\($0.0)=\($0.1)" }
-            let joined = keyValue.joinedBy(separator: "&")
-            response.send(joined)
-        case .text(let text):
-            response.send(text)
-        case .raw(let data):
-            response.send(data: data)
-        case .multipart:
-            break
+            case .json(let json):
+                response.send(json.description)
+            case .urlEncoded(let dict):
+                let keyValue = dict.map { "\($0.0)=\($0.1)" }
+                let joined = keyValue.joinedBy(separator: "&")
+                response.send(joined)
+            case .text(let text):
+                response.send(text)
+            case .raw(let data):
+                response.send(data: data)
+            case .multipart:
+                break
         }
         
         do {
             try response.end()
-        }
-        catch {
-            Log.error("Failed to send response \(error)")
+        } catch {
+            Log.error(ViewError.responseSendFailure(for: error))
         }
     }
 }
