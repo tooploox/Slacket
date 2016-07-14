@@ -7,28 +7,28 @@ import KituraSys
 import HeliumLogger
 import LoggerAPI
 
-#if os(Linux)
-    import Glibc
-#endif
+import libc
 
-// Using an implementation for a Logger
-Log.logger = HeliumLogger()
-
-// All Web apps need a router to define routes
-let router = Kitura.Router()
-
-router.get("/") { request, response, next in
-    Log.debug("Hello, World!")
-    response.status(.OK).send("Hello, World!")
-    next()
+protocol ServerModuleType {
+    init(using router: Router)
+    mutating func setupRoutes()
 }
 
-// Listen on port 80
-#if os(OSX)
-let serverPort = 8090
-#else
-let serverPort = 80
-#endif
+var workingDirectory: String {
+    let parent = #file.characters.split(separator: "/").map(String.init).dropLast().joined(separator: "/")
+    let path = "/\(parent)/"
+    return path
+}
 
-let server = HttpServer.listen(port: serverPort, delegate: router)
-Server.run()
+var repoDirectory: String {
+    let working = workingDirectory.characters.split(separator: "/").map(String.init).dropLast(2).joined(separator: "/")
+    let path = "/\(working)/"
+    return path
+}
+
+Log.logger = HeliumLogger()
+
+let router = Router()
+let slacket = Slacket(using: router)
+Kitura.addHTTPServer(onPort: InternalServerConfig().port!, with: router)
+Kitura.run()

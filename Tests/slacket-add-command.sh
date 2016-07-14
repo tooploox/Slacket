@@ -1,0 +1,2 @@
+#!/bin/sh
+curl -i -d token=SJ0sPVUmpujXy52BIK8NV7nn -d team_id=T0001 -d team_domain=tooploox -d channel_id=C2147483705 -d channel_name=test -d user_id=U2147483697 -d user_name=Steve -d command=/slacket -d text=www.google.com -d response_url=https://hooks.slack.com/commands/1234/5678 http://localhost:8090/api/v1/slack
